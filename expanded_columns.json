@@ -1,21 +1,4 @@
 [
-
-  {
-    "id": "mh_ro_hdr_details.loctn_cd",
-    "document": "Location Code: References dealer/location in MH_AD_AI_DIMENSION. Used for joining repair orders to dealer and sales hierarchy.",
-    "metadata": {
-      "type": "column",
-      "table_name": "MH_RO_HDR_DETAILS",
-      "data_type": "STRING",
-      "nullable": true,
-      "is_primary_key": false,
-      "is_foreign_key": true,
-      "joins": [
-        {"table": "MH_AD_AI_DIMENSION", "on": "LOCTN_CD", "join_type": "LEFT OUTER JOIN"}
-      ]
-    }
-  },
-
   {
     "id": "mh_model_master.modl_cd",
     "document": "Model Code: Primary key for MH_MODEL_MASTER. Uniquely identifies a vehicle model. Used to join with MH_RO_HDR_DETAILS.",
@@ -323,19 +306,6 @@
   },
 
   {
-    "id": "mh_ad_ai_dimension.delr_cd",
-    "document": "Dealer Code: Primary key for MH_AD_AI_DIMENSION. Uniquely identifies a dealer.",
-    "metadata": {
-      "type": "column",
-      "table_name": "MH_AD_AI_DIMENSION",
-      "data_type": "STRING",
-      "nullable": true,
-      "is_primary_key": true,
-      "is_foreign_key": false
-    }
-  },
-
-  {
     "id": "mh_ad_ai_dimension.delr_name",
     "document": "Dealer Name: Name of the dealer in the sales and service hierarchy.",
     "metadata": {
@@ -418,6 +388,19 @@
           "join_type": "LEFT OUTER JOIN"
         }
       ]
+    }
+  },
+
+  {
+    "id": "mh_ad_ai_dimension.delr_cd",
+    "document": "Dealer Code: Primary key for MH_AD_AI_DIMENSION. Uniquely identifies a dealer.",
+    "metadata": {
+      "type": "column",
+      "table_name": "MH_AD_AI_DIMENSION",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": true,
+      "is_foreign_key": false
     }
   },
 
@@ -526,6 +509,18 @@
   },
  
   {
+    "id": "mh_cust_verbatim.ro_number",
+    "document": "RO Number: Repair Order number associated with the customer feedback verbatim.",
+    "metadata": {
+      "type": "column",
+      "table_name": "MH_CUST_VERBATIM",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false
+    }
+  },
+  {
     "id": "mh_cust_verbatim.sv_ro_hdr_sk",
     "document": "Service RO Header SK: Foreign key to MH_RO_HDR_DETAILS. Links customer feedback to repair order headers.",
     "metadata": {
@@ -541,18 +536,6 @@
     }
   },
  
-  {
-    "id": "mh_cust_verbatim.ro_number",
-    "document": "RO Number: Repair Order number associated with the customer feedback verbatim.",
-    "metadata": {
-      "type": "column",
-      "table_name": "MH_CUST_VERBATIM",
-      "data_type": "STRING",
-      "nullable": true,
-      "is_primary_key": false,
-      "is_foreign_key": false
-    }
-  },
 
   {
     "id": "mh_cust_verbatim.demanded_verbatim",
@@ -641,7 +624,7 @@
 
   {
     "id": "mh_ro_labour.sv_ro_bill_hdr_sk",
-    "document": "Service RO Bill Header SK: Identifier for the service repair order bill header, used for linking billing information.",
+    "document": "Service RO Bill Header SK: Identifier for the service repair order bill header.This key is used to join the MH_RO_HDR_DETAILS WITH  MH_RO_LABOUR TABLE.",
     "metadata": {
       "type": "column",
       "table_name": "MH_RO_LABOUR",
@@ -833,7 +816,19 @@
       "is_foreign_key": false
     }
   },
-
+  {
+    "id": "mh_ro_labour.labr_code",
+    "document": "Labour Code: Group or classification of the labor Group.",
+    "metadata": {
+      "type": "column",
+      "table_name": "MH_RO_LABOUR",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false
+    }
+  },
+  
   {
     "id": "mh_ro_parts.sv_ro_hdr_sk",
     "document": "Service RO Header SK: Foreign key to MH_RO_HDR_DETAILS. Links part records to repair order headers.",
@@ -856,7 +851,7 @@
 
   {
     "id": "mh_ro_parts.sv_ro_bill_hdr_sk",
-    "document": "Service RO Bill Header SK: Identifier for the service repair order bill header, used for linking billing information for parts.",
+    "document": "Service RO Bill Header SK: Identifier for the service repair order bill header.Identifier for the service repair order bill header.This key is used to join the MH_RO_HDR_DETAILS WITH  MH_RO_PARTS TABLE.",
     "metadata": {
       "type": "column",
       "table_name": "MH_RO_PARTS",
@@ -986,7 +981,7 @@
   
   {
     "id": "mh_ro_parts.oem_part_ind",
-    "document": "OEM Part Indicator: Indicates if the part is an OEM part.",
+    "document": "OEM Part Indicator: Indicates if the part is an OEM part or a local part. It is a BOOLEAN FIELD. If a Part is OEM part then it is Y else if the part is a Local part then it stores N.",
     "metadata": {
       "type": "column",
       "table_name": "MH_RO_PARTS",
@@ -1285,7 +1280,7 @@
  
   {
     "id": "mh_ro_hdr_details.ro_cancl_date",
-    "document": "RO Cancel Date: Date when the repair order was cancelled.",
+    "document": "RO Cancel Date: Date when the repair order was cancelled.It is used to join when users asks a query based on repair order cancel date.",
     "metadata": {
       "type": "column",
       "table_name": "MH_RO_HDR_DETAILS",
@@ -1324,7 +1319,7 @@
  
   {
     "id": "mh_ro_hdr_details.vin",
-    "document": "VIN: Vehicle Identification Number for the repair order.",
+    "document": "VIN: Vehicle Identification Number of the vehicle which is there for repair and forms the part of repair order.",
     "metadata": {
       "type": "column",
       "table_name": "MH_RO_HDR_DETAILS",
@@ -1337,7 +1332,7 @@
  
   {
     "id": "mh_ro_hdr_details.ro_date",
-    "document": "RO Date: Date when the repair order was opened.",
+    "document": "RO Date: Date when the repair order was opened or created.It is used to join when users asks a query based on repair order open date or repair order creation date.",
     "metadata": {
       "type": "column",
       "table_name": "MH_RO_HDR_DETAILS",
@@ -1350,7 +1345,7 @@
   
   {
     "id": "mh_ro_hdr_details.ro_datetime",
-    "document": "RO DateTime: Timestamp for when the repair order was opened.",
+    "document": "RO DateTime: Timestamp for when the repair order was opened or created.",
     "metadata": {
       "type": "column",
       "table_name": "MH_RO_HDR_DETAILS",
@@ -1363,7 +1358,7 @@
  
   {
     "id": "mh_ro_hdr_details.bill_date",
-    "document": "Bill Date: Date when the repair order was billed.",
+    "document": "Bill Date: Date when the repair order or ro or ro_id was billed.",
     "metadata": {
       "type": "column",
       "table_name": "MH_RO_HDR_DETAILS",
@@ -1376,7 +1371,7 @@
 
   {
     "id": "mh_ro_hdr_details.bill_datetime",
-    "document": "Bill DateTime: Timestamp for when the repair order was billed.",
+    "document": "Bill DateTime: Timestamp for when the repair order or ro or ro_id was billed.",
     "metadata": {
       "type": "column",
       "table_name": "MH_RO_HDR_DETAILS",
@@ -1389,7 +1384,7 @@
  
   {
     "id": "mh_ro_hdr_details.ro_closed_date",
-    "document": "RO Closed Date: Date when the repair order was closed.",
+    "document": "RO Closed Date: Date when the repair order or ro or ro_id was closed.",
     "metadata": {
       "type": "column",
       "table_name": "MH_RO_HDR_DETAILS",
@@ -1402,7 +1397,7 @@
   
   {
     "id": "mh_ro_hdr_details.ro_stats",
-    "document": "RO Status: Current status of the repair order.",
+    "document": "RO Status: Current status of the repair order or ro or ro_id .",
     "metadata": {
       "type": "column",
       "table_name": "MH_RO_HDR_DETAILS",
@@ -1415,7 +1410,7 @@
  
   {
     "id": "mh_ro_hdr_details.odmtr_redng",
-    "document": "Odometer Reading: Odometer reading of the vehicle at the time of repair order.",
+    "document": "Odometer Reading: Odometer reading of the vehicle at the time of repair order creation.",
     "metadata": {
       "type": "column",
       "table_name": "MH_RO_HDR_DETAILS",
@@ -1441,7 +1436,7 @@
   
   {
     "id": "mh_ro_hdr_details.ro_bill_date",
-    "document": "RO Bill Date: Date when the repair order bill was generated.",
+    "document": "RO Bill Date: Date when the repair order or ro or ro_id bill was generated.",
     "metadata": {
       "type": "column",
       "table_name": "MH_RO_HDR_DETAILS",
@@ -1454,7 +1449,7 @@
 
   {
     "id": "mh_ro_hdr_details.cancl_date",
-    "document": "Cancel Date: Date when the repair order was cancelled (alternate field).",
+    "document": "Cancel Date: Date when the repair order or ro or ro_id was cancelled (alternate field).",
     "metadata": {
       "type": "column",
       "table_name": "MH_RO_HDR_DETAILS",
@@ -1467,32 +1462,22 @@
  
   {
     "id": "mh_ro_hdr_details.sv_ro_hdr_sk",
-    "document": "Service RO Header SK: Primary key for MH_RO_HDR_DETAILS. Used to join with MH_RO_LABOUR, MH_RO_PARTS, and MH_CUST_VERBATIM.",
+    "document": "Service RO Header SK: Primary key for MH_RO_HDR_DETAILS to identify any Repair Order or RO or RO_ID. This is related to RO_ID column on one to one basis.Used to join with MH_CUST_VERBATIM TABLE.",
     "metadata": {
       "type": "column",
       "table_name": "MH_RO_HDR_DETAILS",
       "data_type": "INTEGER",
       "nullable": true,
-      "is_primary_key": true,
+      "is_primary_key": false,
       "is_foreign_key": false,
-      "joins": [
-        {
-          "table": "MH_RO_LABOUR",
-          "on": "sv_ro_hdr_sk",
-          "join_type": "LEFT OUTER JOIN"
-        },
-        {
-          "table": "MH_RO_PARTS",
-          "on": "sv_ro_hdr_sk",
-          "join_type": "LEFT OUTER JOIN"
-        },
+          "joins": [
         {
           "table": "MH_CUST_VERBATIM",
           "on": "sv_ro_hdr_sk",
           "join_type": "LEFT OUTER JOIN"
         }
       ]
-    }
+}
   },
 
   {
@@ -1509,8 +1494,25 @@
   },
 
   {
+    "id": "mh_ro_hdr_details.loctn_cd",
+    "document": "Location Code: References dealer/location in MH_AD_AI_DIMENSION. Used for joining repair orders to dealer and sales hierarchy.",
+    "metadata": {
+      "type": "column",
+      "table_name": "MH_RO_HDR_DETAILS",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": true,
+      "joins": [
+        {"table": "MH_AD_AI_DIMENSION", "on": "LOCTN_CD", "join_type": "LEFT OUTER JOIN"}
+      ]
+    }
+  },
+
+
+  {
     "id": "mh_ro_hdr_details.ro_id",
-    "document": "RO_ID also known as repair order id or RO or RO NUM or RO ID: key column used to look  a specefic repair order. ",
+    "document": "RO_ID also known as repair order or RO or RO Number or RO No or RO NUM or RO ID: key column used to look  a specefic repair order. It is related to sv_ro_hdr_sk on one to one basis. When users asks a question based on any RO Number or RO ID or RO then this key is used to get the columns sv_ro_bill_hdr_sk to join the table MH_RO_PARTS and sv_ro_bill_hdr_sk to join the table MH_RO_LABOUR tables. ",
     "metadata": {
       "type": "column",
       "table_name": "MH_RO_HDR_DETAILS",
@@ -1523,7 +1525,7 @@
 
   {
     "id": "mh_ro_hdr_details.parts_totl_amnt",
-    "document": "Parts Total Amount: Total amount charged for parts in the repair order.",
+    "document": "Parts Total Amount: Total amount billed for parts in the repair order.",
     "metadata": {
       "type": "column",
       "table_name": "MH_RO_HDR_DETAILS",
@@ -1536,7 +1538,7 @@
  
   {
     "id": "mh_ro_hdr_details.labr_totl_amnt",
-    "document": "Labour Total Amount: Total amount charged for labor in the repair order.",
+    "document": "Labour Total Amount: Total amount billed for labor in the repair order.",
     "metadata": {
       "type": "column",
       "table_name": "MH_RO_HDR_DETAILS",
@@ -1575,7 +1577,7 @@
 
   {
     "id": "mh_ro_hdr_details.labr_basc_amnt",
-    "document": "Labour Basic Amount: Basic amount for labor before taxes and discounts.",
+    "document": "Labour Basic Amount: Basic amount for Labour before taxes and discounts.",
     "metadata": {
       "type": "column",
       "table_name": "MH_RO_HDR_DETAILS",
@@ -1660,14 +1662,26 @@
  
   {
     "id": "mh_ro_hdr_details.sv_ro_bill_hdr_sk",
-    "document": "Service RO Bill Header SK: Identifier for the service repair order bill header.",
+    "document": "Service RO Bill Header SK: Identifier for the repair order bill header. This key is used to join the MH_RO_HDR_DETAILS WITH MH_RO_PARTS TABLE AND MH_RO_HDR_DETAILS WITH MH_RO_LABOUR TABLE",
     "metadata": {
       "type": "column",
       "table_name": "MH_RO_HDR_DETAILS",
       "data_type": "INTEGER",
       "nullable": true,
       "is_primary_key": false,
-      "is_foreign_key": false
+      "is_foreign_key": false,
+      "joins": [
+        {
+          "table": "MH_RO_LABOUR",
+          "on": "sv_ro_bill_hdr_sk",
+          "join_type": "LEFT OUTER JOIN"
+        },
+        {
+          "table": "MH_RO_PARTS",
+          "on": "sv_ro_bill_hdr_sk",
+          "join_type": "LEFT OUTER JOIN"
+        }
+      ]
     }
   },
  
@@ -1829,11 +1843,11 @@
 
   {
     "id": "mh_ro_hdr_details.ro_gt_72",
-    "document": "RO Greater Than 72 Hours: Indicates if repair order duration exceeded 72 hours.",
+    "document": "RO Greater Than 72 Hours: Indicates if repair order duration exceeded 72 hours. It stores the value of column sv_ro_hdr_sk for repair order duration exceeding 72 hours else it stores 0.It is not a BOOLEAN field.",
     "metadata": {
       "type": "column",
       "table_name": "MH_RO_HDR_DETAILS",
-      "data_type": "STRING",
+      "data_type": "NUMERIC",
       "nullable": true,
       "is_primary_key": false,
       "is_foreign_key": false
@@ -1842,11 +1856,11 @@
 
   {
     "id": "mh_ro_hdr_details.ro_lt_et_72",
-    "document": "RO Less Than or Equal To 72 Hours: Indicates if repair order duration was 72 hours or less.",
+    "document": "RO Less Than or Equal To 72 Hours: Indicates if repair order duration was 72 hours or less.It stores the value of column sv_ro_hdr_sk for repair order duration IS equal to less Than 72 hours else it stores 0.It is not a BOOLEAN field.",
     "metadata": {
       "type": "column",
       "table_name": "MH_RO_HDR_DETAILS",
-      "data_type": "STRING",
+      "data_type": "NUMERIC",
       "nullable": true,
       "is_primary_key": false,
       "is_foreign_key": false
@@ -1855,11 +1869,11 @@
 
   {
     "id": "mh_ro_hdr_details.ro_lt_et_48",
-    "document": "RO Less Than or Equal To 48 Hours: Indicates if repair order duration was 48 hours or less.",
+    "document": "RO Less Than or Equal To 48 Hours: Indicates if repair order duration was 48 hours or less.It stores the value of column sv_ro_hdr_sk for repair order duration IS equal to less Than 48 hours else it stores 0.It is not a BOOLEAN field.",
     "metadata": {
       "type": "column",
       "table_name": "MH_RO_HDR_DETAILS",
-      "data_type": "STRING",
+      "data_type": "NUMERIC",
       "nullable": true,
       "is_primary_key": false,
       "is_foreign_key": false
@@ -1868,11 +1882,11 @@
 
   {
     "id": "mh_ro_hdr_details.ro_lt_et_24",
-    "document": "RO Less Than or Equal To 24 Hours: Indicates if repair order duration was 24 hours or less.",
+    "document": "RO Less Than or Equal To 24 Hours: Indicates if repair order duration was 24 hours or less.It stores the value of column sv_ro_hdr_sk for repair order duration IS equal to less Than 24 hours else it stores 0.It is not a BOOLEAN field.",
     "metadata": {
       "type": "column",
       "table_name": "MH_RO_HDR_DETAILS",
-      "data_type": "STRING",
+      "data_type": "NUMERIC",
       "nullable": true,
       "is_primary_key": false,
       "is_foreign_key": false
@@ -2635,7 +2649,7 @@
 
   {
     "id": "mh_ro_hdr_details.taxi_indicator",
-    "document": "Taxi Indicator: Indicates if the vehicle is classified as a taxi.",
+    "document": "Taxi Indicator: Indicates if the vehicle is classified as a taxi. It is not a BOOLEAN field. IT stores the values as NON TAXI OR TAXI.",
     "metadata": {
       "type": "column",
       "table_name": "MH_RO_HDR_DETAILS",
