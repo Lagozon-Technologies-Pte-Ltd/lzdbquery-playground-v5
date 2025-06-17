@@ -734,8 +734,8 @@ function updatePageContent(data) {
     }
 
     // Rest of your existing code for SQL query display...
-    if (data.query) {
-        sqlQueryContent.textContent = data.query;
+    if (data.SQL_Statement) {
+        sqlQueryContent.textContent = data.SQL_Statement;
 
         const viewQueryBtn = document.createElement("button");
         viewQueryBtn.textContent = "SQL Query";
