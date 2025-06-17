@@ -487,7 +487,9 @@ def invoke_chain(question, messages, selected_model, selected_subject, selected_
         clean_json = re.sub(r"^```json|```$", "", SQL_Statement.strip(), flags=re.MULTILINE).strip()
         data = json.loads(clean_json)        
         SQL_Statement = data["query"]
+        description = data["description"]
         print(f"Generated SQL Statement in newlangchain_utils: {SQL_Statement}")
+        print(f"Generated SQL Statement in newlangchain_utils: {description}")
 
         response = chain.invoke({
             "question": question,           # <-- Correct key
@@ -531,11 +533,13 @@ def invoke_chain(question, messages, selected_model, selected_subject, selected_
                 df = pd.DataFrame(rows, columns=columns)
                 tables_data[table] = df
                 break
-        return response, mahindra_tables, tables_data, db, final_prompt
+        return response, mahindra_tables, tables_data, db, final_prompt,description
+
 
     except Exception as e:
         print("Error:", e)
         return "Error in invoke chain function", [], {}, e,None
+    
 
 def create_history(messages):
     history = ChatMessageHistory()
