@@ -856,16 +856,16 @@ async def submit_query(
         else:
             table_schema, column_schema = {}, {}
             logger.info("Skipped fetching table and column schema.")       
-        print("This is my table schema",table_schema)
-        print("This is my column schema",column_schema)
-        logger.info(f"table details: {table_details}")
+        # print("This is my table schema",table_schema)
+        # print("This is my column schema",column_schema)
+        # logger.info(f"table details: {table_details}")
         response, chosen_tables, tables_data, agent_executor, final_prompt = invoke_chain(
                 llm_reframed_query, session_state['messages'], model,
                 selected_subject, selected_database, table_details,
                 selected_business_rule, current_question_type, relationships,table_schema,column_schema,examples
             )
-        logger.info(f"Intent table: {chosen_tables}")
-        logger.info(f"table details: {table_details}")
+        # logger.info(f"Intent table: {chosen_tables}")
+        # logger.info(f"table details: {table_details}")
 
         if isinstance(response, str):
             session_state['generated_query'] = response
