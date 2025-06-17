@@ -70,6 +70,10 @@
 - Use pagination via OFFSET / FETCH NEXT instead of TOP.
 - Do not use temp tables unless explicitly mentioned.
 - Prefer ISNULL() or COALESCE() for null handling.
+-- Always wrap each column name in square brackets, for example : 
+      SELECT DISTINCT TOP 2 [key]
+      FROM mh_ro_hdr_details
+      WHERE [key] IS NOT NULL;
 
 ## Window Functions
 - Use window functions like ROW_NUMBER(), RANK(), DENSE_RANK(), LAG(), LEAD() appropriately.
@@ -173,5 +177,4 @@ Important
   --Do not rephrase or summarize the user input.
   --Do not mention user intent or question language.
   --Focus on describing the technical SQL output directly and explicitly.
-
 
