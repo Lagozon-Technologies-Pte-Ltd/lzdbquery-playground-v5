@@ -686,21 +686,23 @@ function chooseExampleQuestion() {
  */
 function updatePageContent(data) {
     const userQueryDisplay = document.getElementById("user_query_display");
-    const sqlQueryContent = document.getElementById("sql-query-content"); // Get the modal content
+    const sqlQueryContent = document.getElementById("sql-query-content");
     const tablesContainer = document.getElementById("tables_container");
-    const xlsxbtn = document.getElementById("xlsx-btn"); // Excel button container
-    const emailbtn = document.getElementById("email-btn"); // Excel button container
+    const xlsxbtn = document.getElementById("xlsx-btn");
+    const emailbtn = document.getElementById("email-btn");
     const faqbtn = document.getElementById("add-to-faqs-btn");
-    // Update user query text
-    userQueryDisplay.querySelector('span').textContent = data.user_query || "";
 
-    // Clear and update tables container
+    // Update user query text with description if available
+    const displayText = data.description ||"";
+    userQueryDisplay.querySelector('span').textContent = displayText;
+
+    // Rest of your existing updatePageContent code...
     tablesContainer.innerHTML = "";
-    xlsxbtn.innerHTML = ""; // Clear Excel button container before adding new buttons
+    xlsxbtn.innerHTML = "";
+    
     if (data.tables && data.tables.length > 0) {
         data.tables.forEach((table) => {
             const tableWrapper = document.createElement("div");
-
             tableWrapper.innerHTML = `
                 <div id="${table.table_name}_table">${table.table_html}</div>
                 <div id="${table.table_name}_pagination"></div>
@@ -709,74 +711,52 @@ function updatePageContent(data) {
                     <button class="like-button" data-table="${table.table_name}" onclick="submitFeedback('${table.table_name}', 'like')">Like</button>
                     <button class="dislike-button" data-table="${table.table_name}" onclick="submitFeedback('${table.table_name}', 'dislike')">Dislike</button>
                     <span id="${table.table_name}_feedback_message"></span>
-                </div>
+                </div>
             `;
-
             tablesContainer.appendChild(tableWrapper);
 
-            // Create "Download Excel" button with spacing
             const downloadButton = document.createElement("button");
             downloadButton.id = `download-button-${table.table_name}`;
             downloadButton.className = "download-btn";
             downloadButton.innerHTML = `<img src="static/excel.png" alt="xlsx" class="excel-icon"> Download Excel`;
             downloadButton.onclick = () => downloadSpecificTable(table.table_name);
-
             xlsxbtn.appendChild(downloadButton);
-            // Add pagination
+
             updatePaginationLinks(
                 table.table_name,
                 table.pagination.current_page,
                 table.pagination.total_pages,
                 table.pagination.records_per_page
             );
-
         });
     } else {
         tablesContainer.innerHTML = "<p>No tables to display.</p>";
     }
-   // Add copy button in top-right of popup
-   const copyButton = document.createElement('button');
-   copyButton.innerHTML = '<i class="fas fa-copy"></i>';
-   copyButton.className = 'copy-btn-popup';
-   copyButton.addEventListener('click', () => {
-       const sqlQueryText = document.getElementById("sql-query-content").textContent;
-       navigator.clipboard.writeText(sqlQueryText)
-           .then(() => {
-               alert('SQL query copied to clipboard!');
-           })
-           .catch(err => {
-               console.error('Failed to copy: ', err);
-               alert('Failed to copy SQL query to clipboard.');
-           });
-   });
 
-   // Ensure this is inside the modal
-   sqlQueryContent.parentNode.appendChild(copyButton);
-
-    // Add the "View SQL Query" button BELOW the Download Excel button
+    // Rest of your existing code for SQL query display...
     if (data.query) {
         sqlQueryContent.textContent = data.query;
 
-        // Create "View SQL Query" button dynamically
         const viewQueryBtn = document.createElement("button");
         viewQueryBtn.textContent = "SQL Query";
         viewQueryBtn.id = "view-sql-query-btn";
         viewQueryBtn.onclick = showSQLQueryPopup;
-        viewQueryBtn.style.display = "block"; // Ensure button appears in a new line
+        viewQueryBtn.style.display = "block";
+        
         const faqBtn = document.createElement("button");
         faqBtn.textContent = "Add to FAQs";
         faqBtn.id = "add-to-faqs-btn";
         faqBtn.onclick = addToFAQs;
-        faqBtn.style.display = "block"; // Ensure button appears in a new line
+        faqBtn.style.display = "block";
+        
         const emailbtn = document.createElement("button");
         emailbtn.id = "send-email-btn";
-
         emailbtn.textContent = "Send Email";
-
         emailbtn.style.display = "block";
-        xlsxbtn.appendChild(viewQueryBtn); // Append below the Excel download button
+        
+        xlsxbtn.appendChild(viewQueryBtn);
         xlsxbtn.appendChild(faqBtn);
-        xlsxbtn.appendChild(emailbtn) // Append below the Excel download button
+        xlsxbtn.appendChild(emailbtn);
     } else {
         sqlQueryContent.textContent = "No SQL query available.";
     }
