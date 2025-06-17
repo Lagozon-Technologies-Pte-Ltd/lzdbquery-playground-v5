@@ -19,7 +19,7 @@ from langchain.prompts.example_selector import SemanticSimilarityExampleSelector
 from openai import AzureOpenAI
 from langchain_openai import AzureChatOpenAI
 from langchain.embeddings import AzureOpenAIEmbeddings 
-
+import re
 
 AZURE_OPENAI_API_KEY = os.environ.get('AZURE_OPENAI_API_KEY')
 AZURE_OPENAI_ENDPOINT = os.environ.get('AZURE_OPENAI_ENDPOINT')
@@ -423,8 +423,36 @@ def get_chain(question, _messages, selected_model, selected_subject, selected_da
     #     final_prompt=final_prompt2    
     generate_query = create_sql_query_chain(llm, db, final_prompt)
     SQL_Statement = generate_query.invoke({"question": question, "messages": _messages})
-    print(f"Generated SQL Statement before execution: {SQL_Statement}")
 
+    # DEBUG: print raw output
+    print(f"[DEBUG] Raw model output:\n{SQL_Statement}")
+
+    # Try to extract SQL from JSON, fallback to plain SQL string
+    try:
+       # If the model returned a string, try loading it
+        if isinstance(SQL_Statement, str):
+            SQL_Statement_stripped = SQL_Statement.strip()
+
+            # Check if it starts with "{" – then assume JSON
+            if SQL_Statement_stripped.startswith("{"):
+                data = json.loads(SQL_Statement_stripped)
+                SQL_Statement = data["query"]
+            else:
+                print("[WARNING] Output not JSON, using raw SQL string.")
+        elif isinstance(SQL_Statement, dict):
+            # Already a parsed dictionary (unlikely unless something changed upstream)
+            SQL_Statement = SQL_Statement.get("query", "")
+        else:
+            raise ValueError("Unexpected format for SQL_Statement.")
+    except Exception as e:
+        print("[ERROR] Failed to parse SQL statement:", e)
+        raise e
+
+
+    print(f"Generated SQL Statement before execution: {SQL_Statement}")
+   
+    
+    
     # Override QuerySQLDataBaseTool validation
     class CustomQuerySQLDatabaseTool(QuerySQLDataBaseTool):
         def __init__(self, db):
@@ -456,8 +484,10 @@ def invoke_chain(question, messages, selected_model, selected_subject, selected_
             question, history.messages, selected_model, selected_subject,
             selected_database, table_info, selected_business_rule, question_type, relationships,table_schema,column_schema,examples
         )
+        clean_json = re.sub(r"^```json|```$", "", SQL_Statement.strip(), flags=re.MULTILINE).strip()
+        data = json.loads(clean_json)        
+        SQL_Statement = data["query"]
         print(f"Generated SQL Statement in newlangchain_utils: {SQL_Statement}")
-        SQL_Statement = SQL_Statement.replace("SQL Query:", "").strip()
 
         response = chain.invoke({
             "question": question,           # <-- Correct key
@@ -471,7 +501,10 @@ def invoke_chain(question, messages, selected_model, selected_subject, selected_
 
         tables_data = {}
         for table in mahindra_tables:
-            query = response["query"]
+            
+            query = SQL_Statement
+            
+            
             print(f"Executing SQL Query: {query}")
             if selected_database=="GCP":
                 result_json = db.run(query)
