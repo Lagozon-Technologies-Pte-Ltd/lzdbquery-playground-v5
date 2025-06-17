@@ -859,7 +859,7 @@ async def submit_query(
         # print("This is my table schema",table_schema)
         # print("This is my column schema",column_schema)
         # logger.info(f"table details: {table_details}")
-        response, chosen_tables, tables_data, agent_executor, final_prompt,description= invoke_chain(
+        response, chosen_tables, tables_data, agent_executor, final_prompt,description,SQL_Statement= invoke_chain(
                 llm_reframed_query, session_state['messages'], model,
                 selected_subject, selected_database, table_details,
                 selected_business_rule, current_question_type, relationships,table_schema,column_schema,examples
@@ -915,7 +915,8 @@ async def submit_query(
             "history": session_state['messages'],
             "interprompt":unified_prompt,
             "langprompt": str(final_prompt),
-            "description": description  # Add the description here
+            "description": description , # Add the description here
+            "SQL_Statement":SQL_Statement
         }
         logger.info("langprompt: %s", final_prompt)
         logger.info("Returning JSON response.")
