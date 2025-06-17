@@ -533,7 +533,7 @@ def invoke_chain(question, messages, selected_model, selected_subject, selected_
                 df = pd.DataFrame(rows, columns=columns)
                 tables_data[table] = df
                 break
-        return response, mahindra_tables, tables_data, db, final_prompt,description
+        return response, mahindra_tables, tables_data, db, final_prompt,description, SQL_Statement
 
 
     except Exception as e:
