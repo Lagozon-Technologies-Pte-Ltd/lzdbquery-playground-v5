@@ -743,7 +743,6 @@ function updatePageContent(data) {
             .replace(/LEFT JOIN/g, '\nLEFT JOIN')
             .replace(/RIGHT JOIN/g, '\nRIGHT JOIN')
             .replace(/FULL JOIN/g, '\nFULL JOIN')
-            .replace(/ON/g, '\n    ON')
             .replace(/GROUP BY/g, '\nGROUP BY')
             .replace(/ORDER BY/g, '\nORDER BY')
             .replace(/HAVING/g, '\nHAVING');
