@@ -70,10 +70,18 @@
 - Use pagination via OFFSET / FETCH NEXT instead of TOP.
 - Do not use temp tables unless explicitly mentioned.
 - Prefer ISNULL() or COALESCE() for null handling.
--- Always wrap each column name in square brackets, for example : 
-      SELECT DISTINCT TOP 2 [key]
-      FROM mh_ro_hdr_details
-      WHERE [key] IS NOT NULL;
+
+
+## STRICT SQL FORMAT POLICY (DO NOT IGNORE) --
+  -- ENFORCED SQL FORMAT RULE (CRITICALLY IMPORTANT) --
+  -- This is a hard requirement: EVERY column and table name MUST be wrapped in square brackets.
+  -- Example: SELECT [col1] FROM [my_table] WHERE [col2] IS NOT NULL
+  -- NEVER write: SELECT col1 FROM my_table
+  -- The output will be automatically rejected if this rule is violated even once.
+  -- This includes columns in: SELECT, WHERE, JOIN, GROUP BY, ORDER BY, etc.
+  -- This is NOT optional. Do not skip. Do not use aliases alone (e.g., cv.col) — use [cv].[col].
+  -- DO NOT OMIT SQUARE BRACKETS UNDER ANY CONDITION.
+
 
 ## Window Functions
 - Use window functions like ROW_NUMBER(), RANK(), DENSE_RANK(), LAG(), LEAD() appropriately.
@@ -116,6 +124,13 @@
     Metadata:
       - Data Type: NUMERIC(18,2)
       - Nullable: True
+
+IMPORTANT:
+- Do not return SQL inside double quotes.
+- Do not format output as a JSON object.
+- Return ONLY raw SQL as a plain code block.
+- Avoid inserting any special characters like \n, \r, or control characters.
+
 
 ## Context
 
@@ -178,3 +193,10 @@ Important
   --Do not mention user intent or question language.
   --Focus on describing the technical SQL output directly and explicitly.
 
+IMPORTANT: JSON Output Safety Rules
+- The "query" value must be a **valid JSON string**.
+- Do NOT include raw newlines (`\n` or line breaks) inside the query string. Instead:
+   - output the entire SQL as a single line.
+- The entire JSON object must be valid and parseable.
+- No control characters like unescaped tabs, newlines, or carriage returns.
+- Wrap final output in a markdown ```json code block.
