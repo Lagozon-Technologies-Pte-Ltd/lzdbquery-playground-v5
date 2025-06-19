@@ -735,7 +735,20 @@ function updatePageContent(data) {
 
     // Rest of your existing code for SQL query display...
     if (data.SQL_Statement) {
-        sqlQueryContent.textContent = data.SQL_Statement;
+        // Format the query with newlines before assigning to textContent
+       const formattedQuery = data.SQL_Statement
+            .replace(/FROM/g, '\nFROM')
+            .replace(/WHERE/g, '\nWHERE')
+            .replace(/INNER JOIN/g, '\nINNER JOIN')
+            .replace(/LEFT JOIN/g, '\nLEFT JOIN')
+            .replace(/RIGHT JOIN/g, '\nRIGHT JOIN')
+            .replace(/FULL JOIN/g, '\nFULL JOIN')
+            .replace(/ON/g, '\n    ON')
+            .replace(/GROUP BY/g, '\nGROUP BY')
+            .replace(/ORDER BY/g, '\nORDER BY')
+            .replace(/HAVING/g, '\nHAVING');
+
+        sqlQueryContent.textContent = formattedQuery;
 
         const viewQueryBtn = document.createElement("button");
         viewQueryBtn.textContent = "SQL Query";
