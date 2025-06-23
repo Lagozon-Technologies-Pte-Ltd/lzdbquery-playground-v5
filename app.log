@@ -1,0 +1,540 @@
+{"timestamp": "2025-06-22 13:50:15,147", "logger": "app", "level": "INFO", "message": "Received /submit request with query: Find the top 5 models with the highest seat capacity., section: Azure-SQL-DB, page: 1, records_per_page: 10, model: gpt-4.1-mini"}
+{"timestamp": "2025-06-22 13:50:15,148", "logger": "app", "level": "INFO", "message": "Chat history: user: Find the top 5 models with the highest seat capacity."}
+{"timestamp": "2025-06-22 13:50:15,155", "logger": "app", "level": "INFO", "message": "Selected query type: generic"}
+{"timestamp": "2025-06-22 13:50:15,989", "logger": "app", "level": "INFO", "message": "LLM raw response: {
+  "rephrased_query" : "Find the top 5 models with the highest seat capacity."
+}"}
+{"timestamp": "2025-06-22 13:50:25,703", "logger": "app", "level": "ERROR", "message": "Error processing the prompt: not enough values to unpack (expected 7, got 5)"}
+{"timestamp": "2025-06-22 13:50:32,680", "logger": "app", "level": "INFO", "message": "Received /submit request with query: List all models with their descriptions. Model code, model group, family description, section: Azure-SQL-DB, page: 1, records_per_page: 10, model: gpt-4.1-mini"}
+{"timestamp": "2025-06-22 13:50:32,680", "logger": "app", "level": "INFO", "message": "Chat history: user: Find the top 5 models with the highest seat capacity.
+user: List all models with their descriptions. Model code, model group, family description"}
+{"timestamp": "2025-06-22 13:50:32,686", "logger": "app", "level": "INFO", "message": "Selected query type: generic"}
+{"timestamp": "2025-06-22 13:50:33,550", "logger": "app", "level": "INFO", "message": "LLM raw response: {
+  "rephrased_query" : "List all models with their descriptions, including model code, model group, and family description, and also find the top 5 models with the highest seat capacity."
+}"}
+{"timestamp": "2025-06-22 13:50:36,394", "logger": "app", "level": "ERROR", "message": "Error processing the prompt: not enough values to unpack (expected 7, got 5)"}
+{"timestamp": "2025-06-22 13:58:48,026", "logger": "app", "level": "INFO", "message": "Received /submit request with query: Find the top 5 models with the highest seat capacity., section: Azure-SQL-DB, page: 1, records_per_page: 10, model: gpt-4.1-mini"}
+{"timestamp": "2025-06-22 13:58:48,026", "logger": "app", "level": "INFO", "message": "Chat history: user: Find the top 5 models with the highest seat capacity."}
+{"timestamp": "2025-06-22 13:58:48,045", "logger": "app", "level": "INFO", "message": "Selected query type: generic"}
+{"timestamp": "2025-06-22 13:58:48,882", "logger": "app", "level": "INFO", "message": "LLM raw response: {
+  "rephrased_query" : "Find the top 5 models with the highest seat capacity."
+}"}
+{"timestamp": "2025-06-22 13:58:53,521", "logger": "app", "level": "ERROR", "message": "Error processing the prompt: not enough values to unpack (expected 7, got 5)"}
+{"timestamp": "2025-06-22 14:29:45,254", "logger": "app", "level": "INFO", "message": "Received /submit request with query: List all models with their descriptions. Model code, model group, family description, section: Azure-SQL-DB, page: 1, records_per_page: 10, model: gpt-4.1-mini"}
+{"timestamp": "2025-06-22 14:33:15,488", "logger": "app", "level": "INFO", "message": "Received /submit request with query: Find the top 5 models with the highest seat capacity., section: Azure-SQL-DB, page: 1, records_per_page: 10, model: gpt-4.1-mini"}
+{"timestamp": "2025-06-22 14:33:15,489", "logger": "app", "level": "INFO", "message": "Chat history: user: Find the top 5 models with the highest seat capacity."}
+{"timestamp": "2025-06-22 14:33:15,496", "logger": "app", "level": "INFO", "message": "Selected query type: generic"}
+{"timestamp": "2025-06-22 14:33:16,218", "logger": "app", "level": "INFO", "message": "LLM raw response: {
+  "rephrased_query" : "Find the top 5 models with the highest seat capacity."
+}"}
+{"timestamp": "2025-06-22 14:33:21,151", "logger": "app", "level": "ERROR", "message": "Error processing the prompt: not enough values to unpack (expected 7, got 5)"}
+{"timestamp": "2025-06-22 14:42:17,295", "logger": "app", "level": "INFO", "message": "Received /submit request with query: Find the top 5 models with the highest seat capacity., section: Azure-SQL-DB, page: 1, records_per_page: 10, model: gpt-4.1-mini"}
+{"timestamp": "2025-06-22 14:42:17,296", "logger": "app", "level": "INFO", "message": "Chat history: user: Find the top 5 models with the highest seat capacity.
+user: Find the top 5 models with the highest seat capacity."}
+{"timestamp": "2025-06-22 14:42:17,302", "logger": "app", "level": "INFO", "message": "Selected query type: generic"}
+{"timestamp": "2025-06-22 14:42:18,117", "logger": "app", "level": "INFO", "message": "LLM raw response: {
+  "rephrased_query" : "Find the top 5 models with the highest seat capacity."
+}"}
+{"timestamp": "2025-06-22 14:42:22,902", "logger": "app", "level": "ERROR", "message": "Error processing the prompt: not enough values to unpack (expected 7, got 5)"}
+{"timestamp": "2025-06-22 17:53:45,217", "logger": "app", "level": "INFO", "message": "Received /submit request with query: Find the top 5 models with the highest seat capacity., section: Azure-SQL-DB, page: 1, records_per_page: 10, model: gpt-4.1-mini"}
+{"timestamp": "2025-06-22 17:53:45,218", "logger": "app", "level": "INFO", "message": "Chat history: user: Find the top 5 models with the highest seat capacity."}
+{"timestamp": "2025-06-22 17:53:45,223", "logger": "app", "level": "INFO", "message": "Selected query type: generic"}
+{"timestamp": "2025-06-22 17:53:48,286", "logger": "app", "level": "INFO", "message": "LLM raw response: {
+  "rephrased_query" : "Find the top 5 models with the highest seat capacity."
+}"}
+{"timestamp": "2025-06-22 17:54:15,585", "logger": "app", "level": "ERROR", "message": "Error processing the prompt: not enough values to unpack (expected 7, got 5)"}
+{"timestamp": "2025-06-22 17:54:29,579", "logger": "app", "level": "INFO", "message": "Received /submit request with query: Find the top 5 models with the highest seat capacity., section: Azure-SQL-DB, page: 1, records_per_page: 10, model: gpt-4.1-mini"}
+{"timestamp": "2025-06-22 17:54:29,580", "logger": "app", "level": "INFO", "message": "Chat history: user: Find the top 5 models with the highest seat capacity.
+user: Find the top 5 models with the highest seat capacity."}
+{"timestamp": "2025-06-22 17:54:29,586", "logger": "app", "level": "INFO", "message": "Selected query type: generic"}
+{"timestamp": "2025-06-22 17:54:32,753", "logger": "app", "level": "INFO", "message": "LLM raw response: {
+  "rephrased_query" : "Find the top 5 models with the highest seat capacity."
+}"}
+{"timestamp": "2025-06-22 17:56:18,072", "logger": "app", "level": "INFO", "message": "SQL Query: ```json
+{
+  "description": "Selects the top 5 vehicle models with the highest seat capacity from the MH_MODEL_MASTER table, including model code, model description, and seat capacity.",
+  "query": "SELECT TOP 5 [MODL_CD], [MODL_DESC], [SEAT_CAPCTY] FROM [MH_MODEL_MASTER] ORDER BY [SEAT_CAPCTY] DESC;",
+  "error": null
+}
+```"}
+{"timestamp": "2025-06-22 17:56:18,090", "logger": "app", "level": "INFO", "message": "Data Preview:        MODL_CD                                MODL_DESC SEAT_CAPCTY
+  SCRMM1316925 SC-RF HWK BS3 2WD TC1GRY 9SF RHD TORDRED         9SF
+SCRMM132103990              M2DI 2WD BS2 9SF ROCKYBEIGE         9SF
+SCRMM132103995              M2DI 2WD BS2 9SF FIERYBLACK         9SF
+  SCRMM1326246    SCO MDI BS2 2WD TCGRY 9SF RHD RCKBEIG         9SF
+  SCRMM1326248  SC-RF MDI BS2 2WD TCGRY 9SF RHD DMDWHIT         9SF"}
+{"timestamp": "2025-06-22 17:56:18,091", "logger": "app", "level": "INFO", "message": "Chat Insight: "}
+{"timestamp": "2025-06-22 17:56:18,713", "logger": "app", "level": "INFO", "message": "Returning JSON response."}
+{"timestamp": "2025-06-22 17:57:50,949", "logger": "app", "level": "INFO", "message": "Received /submit request with query: Find the top 5 models with the highest seat capacity., section: Azure-SQL-DB, page: 1, records_per_page: 10, model: gpt-4.1-mini"}
+{"timestamp": "2025-06-22 17:57:50,950", "logger": "app", "level": "INFO", "message": "Chat history: user: Find the top 5 models with the highest seat capacity.
+user: Find the top 5 models with the highest seat capacity."}
+{"timestamp": "2025-06-22 17:57:50,955", "logger": "app", "level": "INFO", "message": "Selected query type: generic"}
+{"timestamp": "2025-06-22 17:57:53,757", "logger": "app", "level": "INFO", "message": "LLM raw response: {
+  "rephrased_query" : "Find the top 5 models with the highest seat capacity."
+}"}
+{"timestamp": "2025-06-22 17:59:25,592", "logger": "app", "level": "INFO", "message": "SQL Query: ```json
+{
+  "description": "Selects the top 5 vehicle models with the highest seat capacity from the MH_MODEL_MASTER table, including model code, model description, and seat capacity.",
+  "query": "SELECT TOP 5 [MODL_CD], [MODL_DESC], [SEAT_CAPCTY] FROM [MH_MODEL_MASTER] ORDER BY [SEAT_CAPCTY] DESC;",
+  "error": null
+}
+```"}
+{"timestamp": "2025-06-22 17:59:25,597", "logger": "app", "level": "INFO", "message": "Data Preview:        MODL_CD                                MODL_DESC SEAT_CAPCTY
+  SCRMM1316925 SC-RF HWK BS3 2WD TC1GRY 9SF RHD TORDRED         9SF
+SCRMM132103990              M2DI 2WD BS2 9SF ROCKYBEIGE         9SF
+SCRMM132103995              M2DI 2WD BS2 9SF FIERYBLACK         9SF
+  SCRMM1326246    SCO MDI BS2 2WD TCGRY 9SF RHD RCKBEIG         9SF
+  SCRMM1326248  SC-RF MDI BS2 2WD TCGRY 9SF RHD DMDWHIT         9SF"}
+{"timestamp": "2025-06-22 17:59:25,597", "logger": "app", "level": "INFO", "message": "Chat Insight: "}
+{"timestamp": "2025-06-22 17:59:25,660", "logger": "app", "level": "INFO", "message": "Returning JSON response."}
+{"timestamp": "2025-06-22 18:24:01,785", "logger": "app", "level": "INFO", "message": "Received /submit request with query: List all models with their descriptions. Model code, model group, family description, section: Azure-SQL-DB, page: 1, records_per_page: 10, model: gpt-4.1-mini"}
+{"timestamp": "2025-06-22 18:24:01,786", "logger": "app", "level": "INFO", "message": "Chat history: user: Find the top 5 models with the highest seat capacity.
+user: List all models with their descriptions. Model code, model group, family description"}
+{"timestamp": "2025-06-22 18:24:01,790", "logger": "app", "level": "INFO", "message": "Selected query type: generic"}
+{"timestamp": "2025-06-22 18:24:05,046", "logger": "app", "level": "INFO", "message": "LLM raw response: {
+  "rephrased_query" : "List all models with their descriptions, including model code, model group, and family description, and also find the top 5 models with the highest seat capacity."
+}"}
+{"timestamp": "2025-06-22 18:24:35,402", "logger": "app", "level": "ERROR", "message": "Error processing the prompt: not enough values to unpack (expected 7, got 5)"}
+{"timestamp": "2025-06-22 18:31:44,201", "logger": "app", "level": "INFO", "message": "Received /submit request with query: List all models with their descriptions. Model code, model group, family description, section: Azure-SQL-DB, page: 1, records_per_page: 10, model: gpt-4.1-mini"}
+{"timestamp": "2025-06-22 18:31:44,202", "logger": "app", "level": "INFO", "message": "Chat history: user: Find the top 5 models with the highest seat capacity.
+user: List all models with their descriptions. Model code, model group, family description
+user: List all models with their descriptions. Model code, model group, family description"}
+{"timestamp": "2025-06-22 18:31:44,207", "logger": "app", "level": "INFO", "message": "Selected query type: generic"}
+{"timestamp": "2025-06-22 18:31:47,121", "logger": "app", "level": "INFO", "message": "LLM raw response: {
+  "rephrased_query" : "List all models with their descriptions, including model code, model group, and family description."
+}"}
+{"timestamp": "2025-06-22 18:33:40,764", "logger": "app", "level": "INFO", "message": "SQL Query: ```json
+{
+  "description": "Selects all models with their model code, model group description, and family description from the MH_MODEL_MASTER table.",
+  "query": "SELECT [MODL_CD], [MODL_GROP_DESC], [FAMLY_DESC] FROM [MH_MODEL_MASTER];",
+  "error": null
+}
+```"}
+{"timestamp": "2025-06-22 18:33:40,767", "logger": "app", "level": "INFO", "message": "Data Preview:           MODL_CD MODL_GROP_DESC         FAMLY_DESC
+  THARMM152826380           THAR THAR CRDe NGT530R 
+THRNM011017096665       NEW THAR New THAR Diesel MT
+THRNM010717241082       NEW THAR New THAR Diesel MT
+X700MM93715721698         XUV700 XUV700 Gasoline AT
+X700M065117795163         XUV700   XUV700 Diesel AT"}
+{"timestamp": "2025-06-22 18:33:40,768", "logger": "app", "level": "INFO", "message": "Chat Insight: "}
+{"timestamp": "2025-06-22 18:33:40,999", "logger": "app", "level": "INFO", "message": "Returning JSON response."}
+{"timestamp": "2025-06-22 18:58:49,828", "logger": "app", "level": "INFO", "message": "Received /submit request with query: Find the top 5 models with the highest seat capacity., section: Azure-SQL-DB, page: 1, records_per_page: 10, model: gpt-4.1-mini"}
+{"timestamp": "2025-06-22 18:58:49,829", "logger": "app", "level": "INFO", "message": "Chat history: user: Find the top 5 models with the highest seat capacity.
+user: List all models with their descriptions. Model code, model group, family description
+user: Find the top 5 models with the highest seat capacity."}
+{"timestamp": "2025-06-22 18:58:49,835", "logger": "app", "level": "INFO", "message": "Selected query type: generic"}
+{"timestamp": "2025-06-22 18:58:52,761", "logger": "app", "level": "INFO", "message": "LLM raw response: {
+  "rephrased_query" : "Find the top 5 models with the highest seat capacity, including their model code, model group, and family description."
+}"}
+{"timestamp": "2025-06-22 18:59:20,823", "logger": "app", "level": "ERROR", "message": "Error processing the prompt: not enough values to unpack (expected 7, got 5)"}
+{"timestamp": "2025-06-22 19:08:37,648", "logger": "app", "level": "INFO", "message": "Received /submit request with query: Find the top 5 models with the highest seat capacity., section: Azure-SQL-DB, page: 1, records_per_page: 10, model: gpt-4.1-mini"}
+{"timestamp": "2025-06-22 19:08:37,649", "logger": "app", "level": "INFO", "message": "Chat history: user: Find the top 5 models with the highest seat capacity.
+user: List all models with their descriptions. Model code, model group, family description
+user: Find the top 5 models with the highest seat capacity.
+user: Find the top 5 models with the highest seat capacity."}
+{"timestamp": "2025-06-22 19:08:37,654", "logger": "app", "level": "INFO", "message": "Selected query type: generic"}
+{"timestamp": "2025-06-22 19:08:40,584", "logger": "app", "level": "INFO", "message": "LLM raw response: {
+  "rephrased_query" : "Find the top 5 models with the highest seat capacity, including their model code, model group, and family description."
+}"}
+{"timestamp": "2025-06-22 19:10:21,338", "logger": "app", "level": "INFO", "message": "SQL Query: ```json
+{
+  "description": "Selects the top 5 vehicle models with the highest seat capacity, including their model code, model group code, and family description from the MH_MODEL_MASTER table.",
+  "query": "SELECT TOP 5 [MODL_CD], [MODL_GROP_CD], [FAMLY_DESC], [SEAT_CAPCTY] FROM [MH_MODEL_MASTER] ORDER BY [SEAT_CAPCTY] DESC;",
+  "error": null
+}
+```"}
+{"timestamp": "2025-06-22 19:10:21,345", "logger": "app", "level": "INFO", "message": "Data Preview:        MODL_CD MODL_GROP_CD    FAMLY_DESC SEAT_CAPCTY
+  SCRMM1316925          SCR  SCORPIO HAWK         9SF
+SCRMM132103990          SCR SCORPIO M2 DI         9SF
+SCRMM132103995          SCR SCORPIO M2 DI         9SF
+  SCRMM1326246          SCR SCORPIO M2 DI         9SF
+  SCRMM1326248          SCR SCORPIO M2 DI         9SF"}
+{"timestamp": "2025-06-22 19:10:21,853", "logger": "app", "level": "INFO", "message": "Returning JSON response."}
+{"timestamp": "2025-06-22 19:19:00,495", "logger": "app", "level": "INFO", "message": "Received /submit request with query: Find the top 5 models with the highest seat capacity., section: Azure-SQL-DB, page: 1, records_per_page: 10, model: gpt-4.1-mini"}
+{"timestamp": "2025-06-22 19:19:00,495", "logger": "app", "level": "INFO", "message": "Chat history: user: Find the top 5 models with the highest seat capacity.
+user: List all models with their descriptions. Model code, model group, family description
+user: Find the top 5 models with the highest seat capacity.
+user: Find the top 5 models with the highest seat capacity."}
+{"timestamp": "2025-06-22 19:19:00,501", "logger": "app", "level": "INFO", "message": "Selected query type: generic"}
+{"timestamp": "2025-06-22 19:19:03,366", "logger": "app", "level": "INFO", "message": "LLM raw response: {
+  "rephrased_query" : "Find the top 5 models with the highest seat capacity, including their model code, model group, and family description."
+}"}
+{"timestamp": "2025-06-22 19:20:37,454", "logger": "app", "level": "INFO", "message": "SQL Query: ```json
+{
+  "description": "Selects the top 5 vehicle models with the highest seat capacity, including their model code, model group code, and family description from the MH_MODEL_MASTER table.",
+  "query": "SELECT TOP 5 [MODL_CD], [MODL_GROP_CD], [FAMLY_DESC], [SEAT_CAPCTY] FROM [MH_MODEL_MASTER] ORDER BY [SEAT_CAPCTY] DESC;",
+  "error": null
+}
+```"}
+{"timestamp": "2025-06-22 19:20:37,458", "logger": "app", "level": "INFO", "message": "Data Preview:        MODL_CD MODL_GROP_CD    FAMLY_DESC SEAT_CAPCTY
+  SCRMM1316925          SCR  SCORPIO HAWK         9SF
+SCRMM132103990          SCR SCORPIO M2 DI         9SF
+SCRMM132103995          SCR SCORPIO M2 DI         9SF
+  SCRMM1326246          SCR SCORPIO M2 DI         9SF
+  SCRMM1326248          SCR SCORPIO M2 DI         9SF"}
+{"timestamp": "2025-06-22 19:20:38,021", "logger": "app", "level": "INFO", "message": "Returning JSON response."}
+{"timestamp": "2025-06-22 19:30:28,310", "logger": "app", "level": "INFO", "message": "Received /submit request with query: Find the top 5 models with the highest seat capacity., section: Azure-SQL-DB, page: 1, records_per_page: 10, model: gpt-4.1-mini"}
+{"timestamp": "2025-06-22 19:30:28,310", "logger": "app", "level": "INFO", "message": "Chat history: user: Find the top 5 models with the highest seat capacity.
+user: List all models with their descriptions. Model code, model group, family description
+user: Find the top 5 models with the highest seat capacity.
+user: Find the top 5 models with the highest seat capacity."}
+{"timestamp": "2025-06-22 19:30:28,315", "logger": "app", "level": "INFO", "message": "Selected query type: generic"}
+{"timestamp": "2025-06-22 19:30:31,194", "logger": "app", "level": "INFO", "message": "LLM raw response: {
+  "rephrased_query" : "Find the top 5 models with the highest seat capacity, including their model code, model group, and family description."
+}"}
+{"timestamp": "2025-06-22 19:32:08,004", "logger": "app", "level": "INFO", "message": "SQL Query: ```json
+{
+  "description": "Selects the top 5 vehicle models with the highest seat capacity, including their model code, model group code, and family description from the MH_MODEL_MASTER table.",
+  "query": "SELECT TOP 5 [MODL_CD], [MODL_GROP_CD], [FAMLY_DESC], [SEAT_CAPCTY] FROM [MH_MODEL_MASTER] ORDER BY [SEAT_CAPCTY] DESC;",
+  "error": null
+}
+```"}
+{"timestamp": "2025-06-22 19:32:08,008", "logger": "app", "level": "INFO", "message": "Data Preview:        MODL_CD MODL_GROP_CD    FAMLY_DESC SEAT_CAPCTY
+  SCRMM1316925          SCR  SCORPIO HAWK         9SF
+SCRMM132103990          SCR SCORPIO M2 DI         9SF
+SCRMM132103995          SCR SCORPIO M2 DI         9SF
+  SCRMM1326246          SCR SCORPIO M2 DI         9SF
+  SCRMM1326248          SCR SCORPIO M2 DI         9SF"}
+{"timestamp": "2025-06-22 19:32:08,372", "logger": "app", "level": "INFO", "message": "Returning JSON response."}
+{"timestamp": "2025-06-22 19:36:01,699", "logger": "app", "level": "INFO", "message": "Received /submit request with query: Find the top 5 models with the highest seat capacity., section: Azure-SQL-DB, page: 1, records_per_page: 10, model: gpt-4.1-mini"}
+{"timestamp": "2025-06-22 19:36:01,701", "logger": "app", "level": "INFO", "message": "Chat history: user: Find the top 5 models with the highest seat capacity.
+user: List all models with their descriptions. Model code, model group, family description
+user: Find the top 5 models with the highest seat capacity.
+user: Find the top 5 models with the highest seat capacity."}
+{"timestamp": "2025-06-22 19:36:01,706", "logger": "app", "level": "INFO", "message": "Selected query type: generic"}
+{"timestamp": "2025-06-22 19:36:04,593", "logger": "app", "level": "INFO", "message": "LLM raw response: {
+  "rephrased_query" : "Find the top 5 models with the highest seat capacity, including their model code, model group, and family description."
+}"}
+{"timestamp": "2025-06-22 19:37:39,050", "logger": "app", "level": "INFO", "message": "SQL Query: ```json
+{
+  "description": "Selects the top 5 vehicle models with the highest seat capacity, including their model code, model group code, and family description from the MH_MODEL_MASTER table.",
+  "query": "SELECT TOP 5 [MODL_CD], [MODL_GROP_CD], [FAMLY_DESC], [SEAT_CAPCTY] FROM [MH_MODEL_MASTER] ORDER BY TRY_CAST([SEAT_CAPCTY] AS FLOAT) DESC;",
+  "error": null
+}
+```"}
+{"timestamp": "2025-06-22 19:37:39,057", "logger": "app", "level": "INFO", "message": "Data Preview:        MODL_CD MODL_GROP_CD                   FAMLY_DESC SEAT_CAPCTY
+ STOPMM1617417         STOP SAVARI HT/ST TURBO GD NGT520          12
+ STOPMM1617422         STOP SAVARI HT/ST TURBO GD NGT520          12
+STOPMM16377869         STOP    SAVARI HT/ST MDI3200 4SPD          12
+ STOPMM1627427         STOP SAVARI HT/ST TURBO GD NGT520          12
+STOPMM16225031         STOP    SAVARI HT/ST MDI3200 4SPD          12"}
+{"timestamp": "2025-06-22 19:37:39,225", "logger": "app", "level": "INFO", "message": "Returning JSON response."}
+{"timestamp": "2025-06-22 20:14:54,444", "logger": "app", "level": "INFO", "message": "Received /submit request with query: Find the top 5 models with the highest seat capacity., section: Azure-SQL-DB, page: 1, records_per_page: 10, model: gpt-4.1-mini"}
+{"timestamp": "2025-06-22 20:14:54,445", "logger": "app", "level": "INFO", "message": "Chat history: user: Find the top 5 models with the highest seat capacity.
+user: List all models with their descriptions. Model code, model group, family description
+user: Find the top 5 models with the highest seat capacity.
+user: Find the top 5 models with the highest seat capacity."}
+{"timestamp": "2025-06-22 20:14:54,451", "logger": "app", "level": "INFO", "message": "Selected query type: generic"}
+{"timestamp": "2025-06-22 20:14:57,342", "logger": "app", "level": "INFO", "message": "LLM raw response: {
+  "rephrased_query" : "Find the top 5 models with the highest seat capacity, including their model code, model group, and family description."
+}"}
+{"timestamp": "2025-06-22 20:16:35,206", "logger": "app", "level": "INFO", "message": "SQL Query: ```json
+{
+  "description": "Selects the top 5 vehicle models with the highest seat capacity, including their model code, model group code, and family description from the MH_MODEL_MASTER table.",
+  "query": "SELECT TOP 5 [MODL_CD], [MODL_GROP_CD], [FAMLY_DESC], [SEAT_CAPCTY] FROM [MH_MODEL_MASTER] ORDER BY [SEAT_CAPCTY] DESC;",
+  "error": null
+}
+```"}
+{"timestamp": "2025-06-22 20:16:35,210", "logger": "app", "level": "INFO", "message": "Data Preview:        MODL_CD MODL_GROP_CD    FAMLY_DESC SEAT_CAPCTY
+  SCRMM1316925          SCR  SCORPIO HAWK         9SF
+SCRMM132103990          SCR SCORPIO M2 DI         9SF
+SCRMM132103995          SCR SCORPIO M2 DI         9SF
+  SCRMM1326246          SCR SCORPIO M2 DI         9SF
+  SCRMM1326248          SCR SCORPIO M2 DI         9SF"}
+{"timestamp": "2025-06-22 20:16:35,742", "logger": "app", "level": "INFO", "message": "Returning JSON response."}
+{"timestamp": "2025-06-22 20:25:52,372", "logger": "app", "level": "INFO", "message": "Received /submit request with query: Find the top 5 models with the highest seat capacity., section: Azure-SQL-DB, page: 1, records_per_page: 10, model: gpt-4.1-mini"}
+{"timestamp": "2025-06-22 20:25:52,374", "logger": "app", "level": "INFO", "message": "Chat history: user: Find the top 5 models with the highest seat capacity.
+user: List all models with their descriptions. Model code, model group, family description
+user: Find the top 5 models with the highest seat capacity.
+user: Find the top 5 models with the highest seat capacity."}
+{"timestamp": "2025-06-22 20:25:52,379", "logger": "app", "level": "INFO", "message": "Selected query type: generic"}
+{"timestamp": "2025-06-22 20:25:55,227", "logger": "app", "level": "INFO", "message": "LLM raw response: {
+  "rephrased_query" : "Find the top 5 models with the highest seat capacity, including their model code, model group, and family description."
+}"}
+{"timestamp": "2025-06-22 20:27:30,639", "logger": "app", "level": "INFO", "message": "SQL Query: ```json
+{
+  "description": "Selects the top 5 vehicle models with the highest seat capacity, including their model code, model group code, and family code from the MH_MODEL_MASTER table.",
+  "query": "SELECT TOP 5 [MODL_CD], [MODL_GROP_CD], [FAMLY_CD], [SEAT_CAPCTY] FROM [MH_MODEL_MASTER] ORDER BY [SEAT_CAPCTY] DESC;",
+  "error": null
+}
+```"}
+{"timestamp": "2025-06-22 20:27:30,649", "logger": "app", "level": "INFO", "message": "Data Preview:        MODL_CD MODL_GROP_CD FAMLY_CD SEAT_CAPCTY
+  SCRMM1316925          SCR      922         9SF
+SCRMM132103990          SCR      926         9SF
+SCRMM132103995          SCR      926         9SF
+  SCRMM1326246          SCR      926         9SF
+  SCRMM1326248          SCR      926         9SF"}
+{"timestamp": "2025-06-22 20:27:30,694", "logger": "app", "level": "INFO", "message": "Returning JSON response."}
+{"timestamp": "2025-06-22 20:47:49,421", "logger": "app", "level": "INFO", "message": "Received /submit request with query: Find the top 5 models with the highest seat capacity., section: Azure-SQL-DB, page: 1, records_per_page: 10, model: gpt-4.1-mini"}
+{"timestamp": "2025-06-22 20:47:49,422", "logger": "app", "level": "INFO", "message": "Chat history: user: Find the top 5 models with the highest seat capacity."}
+{"timestamp": "2025-06-22 20:47:49,426", "logger": "app", "level": "INFO", "message": "Selected query type: generic"}
+{"timestamp": "2025-06-22 20:47:52,141", "logger": "app", "level": "INFO", "message": "LLM raw response: {
+  "rephrased_query" : "Find the top 5 models with the highest seat capacity."
+}"}
+{"timestamp": "2025-06-22 20:49:28,066", "logger": "app", "level": "INFO", "message": "SQL Query: ```json
+{
+  "description": "Selects the top 5 vehicle models with the highest seat capacity from the MH_MODEL_MASTER table.",
+  "query": "SELECT TOP 5 [MODL_CD], [MODL_DESC], [SEAT_CAPCTY] FROM [MH_MODEL_MASTER] ORDER BY [SEAT_CAPCTY] DESC;",
+  "error": null
+}
+```"}
+{"timestamp": "2025-06-22 20:49:28,069", "logger": "app", "level": "INFO", "message": "Data Preview:        MODL_CD                                MODL_DESC SEAT_CAPCTY
+  SCRMM1316925 SC-RF HWK BS3 2WD TC1GRY 9SF RHD TORDRED         9SF
+SCRMM132103990              M2DI 2WD BS2 9SF ROCKYBEIGE         9SF
+SCRMM132103995              M2DI 2WD BS2 9SF FIERYBLACK         9SF
+  SCRMM1326246    SCO MDI BS2 2WD TCGRY 9SF RHD RCKBEIG         9SF
+  SCRMM1326248  SC-RF MDI BS2 2WD TCGRY 9SF RHD DMDWHIT         9SF"}
+{"timestamp": "2025-06-22 20:49:28,354", "logger": "app", "level": "INFO", "message": "Returning JSON response."}
+{"timestamp": "2025-06-22 20:53:21,629", "logger": "app", "level": "INFO", "message": "Received /submit request with query: Filter by model code SCRMM1326248, section: Azure-SQL-DB, page: 1, records_per_page: 10, model: gpt-4.1-mini"}
+{"timestamp": "2025-06-22 20:53:21,629", "logger": "app", "level": "INFO", "message": "Chat history: user: Find the top 5 models with the highest seat capacity.
+user: Filter by model code SCRMM1326248"}
+{"timestamp": "2025-06-22 20:53:21,635", "logger": "app", "level": "INFO", "message": "Selected query type: generic"}
+{"timestamp": "2025-06-22 20:53:24,435", "logger": "app", "level": "INFO", "message": "LLM raw response: {
+  "rephrased_query" : "Find the top 5 models with the highest seat capacity filtered by model code SCRMM1326248."
+}"}
+{"timestamp": "2025-06-22 20:54:59,619", "logger": "app", "level": "INFO", "message": "SQL Query: ```json
+{
+  "description": "Selects the top 5 vehicle models with the highest seat capacity filtered by the model code 'SCRMM1326248' from the MH_MODEL_MASTER table.",
+  "query": "SELECT TOP 5 [MODL_CD], [MODL_DESC], [SEAT_CAPCTY] FROM [MH_MODEL_MASTER] WHERE LOWER([MODL_CD]) = LOWER('SCRMM1326248') ORDER BY [SEAT_CAPCTY] DESC;",
+  "error": null
+}
+```"}
+{"timestamp": "2025-06-22 20:54:59,624", "logger": "app", "level": "INFO", "message": "Data Preview:      MODL_CD                               MODL_DESC SEAT_CAPCTY
+SCRMM1326248 SC-RF MDI BS2 2WD TCGRY 9SF RHD DMDWHIT         9SF"}
+{"timestamp": "2025-06-22 20:54:59,691", "logger": "app", "level": "INFO", "message": "Returning JSON response."}
+{"timestamp": "2025-06-22 20:56:08,097", "logger": "app", "level": "INFO", "message": "Received /submit request with query: and model desc contains TCGRY, section: Azure-SQL-DB, page: 1, records_per_page: 10, model: gpt-4.1-mini"}
+{"timestamp": "2025-06-22 20:56:08,098", "logger": "app", "level": "INFO", "message": "Chat history: user: Find the top 5 models with the highest seat capacity.
+user: Filter by model code SCRMM1326248
+user: and model desc contains TCGRY"}
+{"timestamp": "2025-06-22 20:56:08,100", "logger": "app", "level": "INFO", "message": "Selected query type: generic"}
+{"timestamp": "2025-06-22 20:56:10,908", "logger": "app", "level": "INFO", "message": "LLM raw response: {
+  "rephrased_query" : "Find the top 5 models with the highest seat capacity filtered by model code SCRMM1326248 and where the model description contains TCGRY."
+}"}
+{"timestamp": "2025-06-22 20:57:44,477", "logger": "app", "level": "INFO", "message": "SQL Query: ```json
+{
+  "description": "Selects the top 5 vehicle models with the highest seat capacity filtered by model code 'SCRMM1326248' and where the model description contains 'TCGRY' from the MH_MODEL_MASTER table.",
+  "query": "SELECT TOP 5 [MODL_CD], [MODL_DESC], [SEAT_CAPCTY] FROM [MH_MODEL_MASTER] WHERE LOWER([MODL_CD]) = LOWER('SCRMM1326248') AND LOWER([MODL_DESC]) LIKE LOWER('%TCGRY%') ORDER BY [SEAT_CAPCTY] DESC;",
+  "error": null
+}
+```"}
+{"timestamp": "2025-06-22 20:57:44,481", "logger": "app", "level": "INFO", "message": "Data Preview:      MODL_CD                               MODL_DESC SEAT_CAPCTY
+SCRMM1326248 SC-RF MDI BS2 2WD TCGRY 9SF RHD DMDWHIT         9SF"}
+{"timestamp": "2025-06-22 20:57:44,531", "logger": "app", "level": "INFO", "message": "Returning JSON response."}
+{"timestamp": "2025-06-22 20:59:55,426", "logger": "app", "level": "INFO", "message": "Received /submit request with query: List all models with their descriptions. Model code, model group, family description, section: Azure-SQL-DB, page: 1, records_per_page: 10, model: gpt-4.1-mini"}
+{"timestamp": "2025-06-22 20:59:55,427", "logger": "app", "level": "INFO", "message": "Chat history: user: List all models with their descriptions. Model code, model group, family description"}
+{"timestamp": "2025-06-22 20:59:55,442", "logger": "app", "level": "INFO", "message": "Selected query type: generic"}
+{"timestamp": "2025-06-22 20:59:58,548", "logger": "app", "level": "INFO", "message": "LLM raw response: {
+  "rephrased_query" : "List all models with their descriptions, including model code, model group, and family description."
+}"}
+{"timestamp": "2025-06-22 21:01:45,632", "logger": "app", "level": "INFO", "message": "SQL Query: ```json
+{
+  "description": "Selects all models with their model code, model group description, and family description from the MH_MODEL_MASTER table.",
+  "query": "SELECT [MODL_CD], [MODL_DESC], [MODL_GROP_DESC], [FAMLY_DESC] FROM [MH_MODEL_MASTER];",
+  "error": null
+}
+```"}
+{"timestamp": "2025-06-22 21:01:45,634", "logger": "app", "level": "INFO", "message": "Data Preview:           MODL_CD                             MODL_DESC MODL_GROP_DESC         FAMLY_DESC
+  THARMM152826380             THAR CRDE 4WD 6 SEATER AC           THAR THAR CRDe NGT530R 
+THRNM011017096665             THAR LX D MT 4WD 4S HT BB       NEW THAR New THAR Diesel MT
+THRNM010717241082    THAR AX OPT D MT 4WD 4S CT EVR WHT       NEW THAR New THAR Diesel MT
+X700MM93715721698        XUV700 AX7 PET AT 7 SEATER BLU         XUV700 XUV700 Gasoline AT
+X700M065117795163 XUV700 AX7 L DSL AT 7 SEATER DPFST DT         XUV700   XUV700 Diesel AT"}
+{"timestamp": "2025-06-22 21:01:45,654", "logger": "app", "level": "INFO", "message": "Returning JSON response."}
+{"timestamp": "2025-06-22 21:02:19,124", "logger": "app", "level": "INFO", "message": "Received /submit request with query: only for model group XUV700, section: Azure-SQL-DB, page: 1, records_per_page: 10, model: gpt-4.1-mini"}
+{"timestamp": "2025-06-22 21:02:19,125", "logger": "app", "level": "INFO", "message": "Chat history: user: List all models with their descriptions. Model code, model group, family description
+user: only for model group XUV700"}
+{"timestamp": "2025-06-22 21:02:19,128", "logger": "app", "level": "INFO", "message": "Selected query type: generic"}
+{"timestamp": "2025-06-22 21:02:22,079", "logger": "app", "level": "INFO", "message": "LLM raw response: {
+  "rephrased_query" : "List all models with their descriptions, including model code, model group, and family description, only for model group XUV700."
+}"}
+{"timestamp": "2025-06-22 21:03:53,717", "logger": "app", "level": "INFO", "message": "SQL Query: ```json
+{
+  "description": "Selects model code, model group description, and family description for all models where the model group code is 'XUV700' from the MH_MODEL_MASTER table.",
+  "query": "SELECT [MODL_CD], [MODL_GROP_DESC], [FAMLY_DESC] FROM [MH_MODEL_MASTER] WHERE LOWER([MODL_GROP_CD]) = LOWER('XUV700');",
+  "error": null
+}
+```"}
+{"timestamp": "2025-06-22 21:03:53,718", "logger": "app", "level": "INFO", "message": "Data Preview: Empty DataFrame
+Columns: [MODL_CD, MODL_GROP_DESC, FAMLY_DESC]
+Index: []"}
+{"timestamp": "2025-06-22 21:03:53,761", "logger": "app", "level": "INFO", "message": "Returning JSON response."}
+{"timestamp": "2025-06-22 21:05:07,368", "logger": "app", "level": "INFO", "message": "Received /submit request with query: remove the filter for XUV700, section: Azure-SQL-DB, page: 1, records_per_page: 10, model: gpt-4.1-mini"}
+{"timestamp": "2025-06-22 21:05:07,368", "logger": "app", "level": "INFO", "message": "Chat history: user: List all models with their descriptions. Model code, model group, family description
+user: only for model group XUV700
+user: remove the filter for XUV700"}
+{"timestamp": "2025-06-22 21:05:07,372", "logger": "app", "level": "INFO", "message": "Selected query type: generic"}
+{"timestamp": "2025-06-22 21:05:10,659", "logger": "app", "level": "INFO", "message": "LLM raw response: {
+  "rephrased_query" : "List all models with their descriptions, including model code, model group, and family description, without any filter on model group."
+}"}
+{"timestamp": "2025-06-22 21:06:58,868", "logger": "app", "level": "INFO", "message": "SQL Query: ```json
+{
+  "description": "Selects all models with their model code, model group description, and family description from the MH_MODEL_MASTER table without any filtering.",
+  "query": "SELECT [MODL_CD], [MODL_DESC], [MODL_GROP_DESC], [FAMLY_DESC] FROM [MH_MODEL_MASTER];",
+  "error": null
+}
+```"}
+{"timestamp": "2025-06-22 21:06:58,869", "logger": "app", "level": "INFO", "message": "Data Preview:           MODL_CD                             MODL_DESC MODL_GROP_DESC         FAMLY_DESC
+  THARMM152826380             THAR CRDE 4WD 6 SEATER AC           THAR THAR CRDe NGT530R 
+THRNM011017096665             THAR LX D MT 4WD 4S HT BB       NEW THAR New THAR Diesel MT
+THRNM010717241082    THAR AX OPT D MT 4WD 4S CT EVR WHT       NEW THAR New THAR Diesel MT
+X700MM93715721698        XUV700 AX7 PET AT 7 SEATER BLU         XUV700 XUV700 Gasoline AT
+X700M065117795163 XUV700 AX7 L DSL AT 7 SEATER DPFST DT         XUV700   XUV700 Diesel AT"}
+{"timestamp": "2025-06-22 21:06:58,889", "logger": "app", "level": "INFO", "message": "Returning JSON response."}
+{"timestamp": "2025-06-22 21:08:01,135", "logger": "app", "level": "INFO", "message": "Received /submit request with query: list the seat capacity, section: Azure-SQL-DB, page: 1, records_per_page: 10, model: gpt-4.1-mini"}
+{"timestamp": "2025-06-22 21:08:01,136", "logger": "app", "level": "INFO", "message": "Chat history: user: Find the top 5 models with the highest seat capacity.
+user: Filter by model code SCRMM1326248
+user: and model desc contains TCGRY
+user: list the seat capacity"}
+{"timestamp": "2025-06-22 21:08:01,143", "logger": "app", "level": "INFO", "message": "Selected query type: generic"}
+{"timestamp": "2025-06-22 21:08:04,176", "logger": "app", "level": "INFO", "message": "LLM raw response: {
+  "rephrased_query" : "Find the top 5 models with the highest seat capacity filtered by model code SCRMM1326248 and where the model description contains TCGRY, and list their seat capacity."
+}"}
+{"timestamp": "2025-06-22 21:09:34,797", "logger": "app", "level": "INFO", "message": "SQL Query: ```json
+{
+  "description": "Selects the top 5 vehicle models with the highest seat capacity filtered by model code 'SCRMM1326248' and where the model description contains 'TCGRY', listing their seat capacity from the MH_MODEL_MASTER table.",
+  "query": "SELECT TOP 5 [MODL_CD], [MODL_DESC], [SEAT_CAPCTY] FROM [MH_MODEL_MASTER] WHERE LOWER([MODL_CD]) = LOWER('SCRMM1326248') AND LOWER([MODL_DESC]) LIKE LOWER('%TCGRY%') ORDER BY [SEAT_CAPCTY] DESC;",
+  "error": null
+}
+```"}
+{"timestamp": "2025-06-22 21:09:34,798", "logger": "app", "level": "INFO", "message": "Data Preview:      MODL_CD                               MODL_DESC SEAT_CAPCTY
+SCRMM1326248 SC-RF MDI BS2 2WD TCGRY 9SF RHD DMDWHIT         9SF"}
+{"timestamp": "2025-06-22 21:09:34,822", "logger": "app", "level": "INFO", "message": "Returning JSON response."}
+{"timestamp": "2025-06-23 07:44:57,893", "logger": "app", "level": "INFO", "message": "Received /submit request with query: List all models with their descriptions. Model code, model group, family description, section: Azure-SQL-DB, page: 1, records_per_page: 10, model: gpt-4.1-mini"}
+{"timestamp": "2025-06-23 07:44:57,896", "logger": "app", "level": "INFO", "message": "Chat history: user: List all models with their descriptions. Model code, model group, family description"}
+{"timestamp": "2025-06-23 07:44:57,902", "logger": "app", "level": "INFO", "message": "Selected query type: generic"}
+{"timestamp": "2025-06-23 07:44:58,799", "logger": "app", "level": "INFO", "message": "LLM raw response: {
+  "rephrased_query" : "List all models with their descriptions, including model code, model group, and family description."
+}"}
+{"timestamp": "2025-06-23 07:45:21,486", "logger": "app", "level": "ERROR", "message": "Error processing the prompt: not enough values to unpack (expected 7, got 5)"}
+{"timestamp": "2025-06-23 07:45:21,489", "logger": "app", "level": "INFO", "message": "Received /submit request with query: Find the top 5 models with the highest seat capacity., section: Azure-SQL-DB, page: 1, records_per_page: 10, model: gpt-4.1-mini"}
+{"timestamp": "2025-06-23 07:45:21,490", "logger": "app", "level": "INFO", "message": "Chat history: user: Find the top 5 models with the highest seat capacity."}
+{"timestamp": "2025-06-23 07:45:21,491", "logger": "app", "level": "INFO", "message": "Selected query type: generic"}
+{"timestamp": "2025-06-23 07:45:22,323", "logger": "app", "level": "INFO", "message": "LLM raw response: {
+  "rephrased_query" : "Find the top 5 models with the highest seat capacity."
+}"}
+{"timestamp": "2025-06-23 07:45:40,243", "logger": "app", "level": "ERROR", "message": "Error processing the prompt: not enough values to unpack (expected 7, got 5)"}
+{"timestamp": "2025-06-23 07:48:19,284", "logger": "app", "level": "INFO", "message": "Received /submit request with query: List all models with their descriptions. Model code, model group, family description, section: Azure-SQL-DB, page: 1, records_per_page: 10, model: gpt-4.1-mini"}
+{"timestamp": "2025-06-23 07:48:19,284", "logger": "app", "level": "INFO", "message": "Chat history: user: List all models with their descriptions. Model code, model group, family description"}
+{"timestamp": "2025-06-23 07:48:19,289", "logger": "app", "level": "INFO", "message": "Selected query type: generic"}
+{"timestamp": "2025-06-23 07:48:20,198", "logger": "app", "level": "INFO", "message": "LLM raw response: {
+  "rephrased_query" : "List all models with their descriptions, including model code, model group, and family description."
+}"}
+{"timestamp": "2025-06-23 07:48:52,349", "logger": "app", "level": "INFO", "message": "SQL Query: ```json
+{
+  "description": "Selects model code, model group code, model group description, and family description for all models from the MH_MODEL_MASTER table.",
+  "query": "SELECT [MODL_CD], [MODL_GROP_CD], [MODL_GROP_DESC], [FAMLY_DESC] FROM [MH_MODEL_MASTER];",
+  "error": null
+}
+```"}
+{"timestamp": "2025-06-23 07:48:52,351", "logger": "app", "level": "INFO", "message": "Data Preview:           MODL_CD MODL_GROP_DESC         FAMLY_DESC
+  THARMM152826380           THAR THAR CRDe NGT530R 
+THRNM011017096665       NEW THAR New THAR Diesel MT
+THRNM010717241082       NEW THAR New THAR Diesel MT
+X700MM93715721698         XUV700 XUV700 Gasoline AT
+X700M065117795163         XUV700   XUV700 Diesel AT"}
+{"timestamp": "2025-06-23 07:48:52,592", "logger": "app", "level": "INFO", "message": "Returning JSON response."}
+{"timestamp": "2025-06-23 07:48:52,596", "logger": "app", "level": "INFO", "message": "Received /submit request with query: Find the top 5 models with the highest seat capacity., section: Azure-SQL-DB, page: 1, records_per_page: 10, model: gpt-4.1-mini"}
+{"timestamp": "2025-06-23 07:48:52,596", "logger": "app", "level": "INFO", "message": "Chat history: user: Find the top 5 models with the highest seat capacity."}
+{"timestamp": "2025-06-23 07:48:52,598", "logger": "app", "level": "INFO", "message": "Selected query type: generic"}
+{"timestamp": "2025-06-23 07:48:53,507", "logger": "app", "level": "INFO", "message": "LLM raw response: {
+  "rephrased_query" : "Find the top 5 models with the highest seat capacity."
+}"}
+{"timestamp": "2025-06-23 07:49:18,031", "logger": "app", "level": "INFO", "message": "SQL Query: ```json
+{
+  "description": "Selects the top 5 vehicle models with the highest seat capacity from the MH_MODEL_MASTER table, including model code, description, and seat capacity.",
+  "query": "SELECT TOP 5 [MODL_CD], [MODL_DESC], [SEAT_CAPCTY] FROM [MH_MODEL_MASTER] ORDER BY [SEAT_CAPCTY] DESC;",
+  "error": null
+}
+```"}
+{"timestamp": "2025-06-23 07:49:18,036", "logger": "app", "level": "INFO", "message": "Data Preview:        MODL_CD                                MODL_DESC SEAT_CAPCTY
+  SCRMM1316925 SC-RF HWK BS3 2WD TC1GRY 9SF RHD TORDRED         9SF
+SCRMM132103990              M2DI 2WD BS2 9SF ROCKYBEIGE         9SF
+SCRMM132103995              M2DI 2WD BS2 9SF FIERYBLACK         9SF
+  SCRMM1326246    SCO MDI BS2 2WD TCGRY 9SF RHD RCKBEIG         9SF
+  SCRMM1326248  SC-RF MDI BS2 2WD TCGRY 9SF RHD DMDWHIT         9SF"}
+{"timestamp": "2025-06-23 07:49:18,087", "logger": "app", "level": "INFO", "message": "Returning JSON response."}
+{"timestamp": "2025-06-23 07:49:25,223", "logger": "app", "level": "INFO", "message": "Received /submit request with query: Model group NEW THAR only, section: Azure-SQL-DB, page: 1, records_per_page: 10, model: gpt-4.1-mini"}
+{"timestamp": "2025-06-23 07:49:25,223", "logger": "app", "level": "INFO", "message": "Chat history: user: List all models with their descriptions. Model code, model group, family description
+user: Model group NEW THAR only"}
+{"timestamp": "2025-06-23 07:49:25,227", "logger": "app", "level": "INFO", "message": "Selected query type: generic"}
+{"timestamp": "2025-06-23 07:49:26,227", "logger": "app", "level": "INFO", "message": "LLM raw response: {
+  "rephrased_query" : "List all models with their model code, model group, and family description for model group NEW THAR only."
+}"}
+{"timestamp": "2025-06-23 07:49:52,448", "logger": "app", "level": "INFO", "message": "SQL Query: ```json
+{
+  "description": "Selects model code, model group description, and family description for all models where the model group description is 'NEW THAR' from the MH_MODEL_MASTER table.",
+  "query": "SELECT [MODL_CD], [MODL_GROP_DESC], [FAMLY_DESC] FROM [MH_MODEL_MASTER] WHERE LOWER([MODL_GROP_DESC]) = LOWER('NEW THAR');",
+  "error": null
+}
+```"}
+{"timestamp": "2025-06-23 07:49:52,452", "logger": "app", "level": "INFO", "message": "Data Preview:           MODL_CD MODL_GROP_DESC           FAMLY_DESC
+THRNM011017096665       NEW THAR   New THAR Diesel MT
+THRNM010717241082       NEW THAR   New THAR Diesel MT
+ THRNMM8365642802       NEW THAR New THAR Gasoline MT
+ THRNMM8375642788       NEW THAR   New THAR Diesel AT
+THRNM007117013832       NEW THAR   New THAR Diesel MT"}
+{"timestamp": "2025-06-23 07:49:52,518", "logger": "app", "level": "INFO", "message": "Returning JSON response."}
+{"timestamp": "2025-06-23 07:49:52,529", "logger": "app", "level": "INFO", "message": "Received /submit request with query: seat capacity 9SF only, section: Azure-SQL-DB, page: 1, records_per_page: 10, model: gpt-4.1-mini"}
+{"timestamp": "2025-06-23 07:49:52,531", "logger": "app", "level": "INFO", "message": "Chat history: user: Find the top 5 models with the highest seat capacity.
+user: seat capacity 9SF only"}
+{"timestamp": "2025-06-23 07:49:52,539", "logger": "app", "level": "INFO", "message": "Selected query type: generic"}
+{"timestamp": "2025-06-23 07:49:53,349", "logger": "app", "level": "INFO", "message": "LLM raw response: {
+  "rephrased_query" : "Find the top 5 models with the highest seat capacity limited to seat capacity 9SF only."
+}"}
+{"timestamp": "2025-06-23 07:50:18,240", "logger": "app", "level": "INFO", "message": "SQL Query: ```json
+{
+  "description": "Selects the top 5 vehicle models from MH_MODEL_MASTER with seat capacity equal to 9, ordered by seat capacity descending.",
+  "query": "SELECT TOP 5 [MODL_CD], [MODL_DESC], [SEAT_CAPCTY], [FUEL_TYPE] FROM [MH_MODEL_MASTER] WHERE [SEAT_CAPCTY] = 9 ORDER BY [SEAT_CAPCTY] DESC;",
+  "error": null
+}
+```"}
+{"timestamp": "2025-06-23 07:50:18,243", "logger": "app", "level": "INFO", "message": "Data Preview:        MODL_CD                               MODL_DESC SEAT_CAPCTY FUEL_TYPE
+  SCRMM1326247 SC-RF MDI BS2 2WD TCGRY 9SF RHD DMDWHIT         9SF         /
+  SCRMM1326248 SC-RF MDI BS2 2WD TCGRY 9SF RHD DMDWHIT         9SF         /
+  SCRMM1326246   SCO MDI BS2 2WD TCGRY 9SF RHD RCKBEIG         9SF         /
+SCRMM132103995             M2DI 2WD BS2 9SF FIERYBLACK         9SF    DIESEL
+SCRMM132103990             M2DI 2WD BS2 9SF ROCKYBEIGE         9SF    DIESEL"}
+{"timestamp": "2025-06-23 07:50:18,310", "logger": "app", "level": "INFO", "message": "Returning JSON response."}
+{"timestamp": "2025-06-23 07:50:45,735", "logger": "app", "level": "INFO", "message": "Received /submit request with query: Family desc contains Gasoline AT, section: Azure-SQL-DB, page: 1, records_per_page: 10, model: gpt-4.1-mini"}
+{"timestamp": "2025-06-23 07:50:45,736", "logger": "app", "level": "INFO", "message": "Chat history: user: List all models with their descriptions. Model code, model group, family description
+user: Model group NEW THAR only
+user: Family desc contains Gasoline AT"}
+{"timestamp": "2025-06-23 07:50:45,739", "logger": "app", "level": "INFO", "message": "Selected query type: generic"}
+{"timestamp": "2025-06-23 07:50:46,811", "logger": "app", "level": "INFO", "message": "LLM raw response: {
+  "rephrased_query" : "List all models with their descriptions, including model code, model group, and family description, filtered to model group 'NEW THAR' only and where family description contains 'Gasoline AT'."
+}"}
+{"timestamp": "2025-06-23 07:51:13,328", "logger": "app", "level": "INFO", "message": "SQL Query: ```json
+{
+  "description": "Selects model code, model description, model group description, and family description from MH_MODEL_MASTER filtered to model group 'NEW THAR' and family description containing 'Gasoline AT'.",
+  "query": "SELECT [MODL_CD], [MODL_DESC], [MODL_GROP_DESC], [FAMLY_DESC] FROM [MH_MODEL_MASTER] WHERE LOWER([MODL_GROP_DESC]) = LOWER('NEW THAR') AND LOWER([FAMLY_DESC]) LIKE LOWER('%Gasoline AT%')",
+  "error": null
+}
+```"}
+{"timestamp": "2025-06-23 07:51:13,330", "logger": "app", "level": "INFO", "message": "Data Preview:           MODL_CD MODL_GROP_DESC       FAMLY_DESC
+THRNM073717830829       NEW THAR THAR Gasoline AT
+THRNM073717830835       NEW THAR THAR Gasoline AT
+THRNM003416936605       NEW THAR THAR Gasoline AT
+THRNM073317830885       NEW THAR THAR Gasoline AT
+THRNM074017830812       NEW THAR THAR Gasoline AT"}
+{"timestamp": "2025-06-23 07:51:13,376", "logger": "app", "level": "INFO", "message": "Returning JSON response."}
+{"timestamp": "2025-06-23 07:51:13,389", "logger": "app", "level": "INFO", "message": "Received /submit request with query: fuel type diesel only, section: Azure-SQL-DB, page: 1, records_per_page: 10, model: gpt-4.1-mini"}
+{"timestamp": "2025-06-23 07:51:13,391", "logger": "app", "level": "INFO", "message": "Chat history: user: Find the top 5 models with the highest seat capacity.
+user: seat capacity 9SF only
+user: fuel type diesel only"}
+{"timestamp": "2025-06-23 07:51:13,397", "logger": "app", "level": "INFO", "message": "Selected query type: generic"}
+{"timestamp": "2025-06-23 07:51:14,458", "logger": "app", "level": "INFO", "message": "LLM raw response: {
+  "rephrased_query" : "Find the top 5 models with the highest seat capacity of 9SF and fuel type diesel only."
+}"}
+{"timestamp": "2025-06-23 07:51:41,681", "logger": "app", "level": "INFO", "message": "SQL Query: ```json
+{
+  "description": "Selects the top 5 vehicle models from MH_MODEL_MASTER with seat capacity of 9SF and fuel type diesel, ordered by seat capacity descending.",
+  "query": "SELECT TOP 5 [MODL_CD], [MODL_DESC], [SEAT_CAPCTY], [FUEL_TYPE] FROM [MH_MODEL_MASTER] WHERE LOWER([SEAT_CAPCTY]) = LOWER('9SF') AND LOWER([FUEL_TYPE]) = LOWER('diesel') ORDER BY [SEAT_CAPCTY] DESC;",
+  "error": null
+}
+```"}
+{"timestamp": "2025-06-23 07:51:41,685", "logger": "app", "level": "INFO", "message": "Data Preview:        MODL_CD                       MODL_DESC SEAT_CAPCTY FUEL_TYPE
+SCRMM131103426 LX MHAWK 2WD BS3 9SF ROCKYBEIGE         9SF    DIESEL
+SCRMM131103430 LX MHAWK 2WD BS3 9SF FIERYBLACK         9SF    DIESEL
+SCRMM132103995     M2DI 2WD BS2 9SF FIERYBLACK         9SF    DIESEL
+SCRMM132103990     M2DI 2WD BS2 9SF ROCKYBEIGE         9SF    DIESEL"}
+{"timestamp": "2025-06-23 07:51:41,760", "logger": "app", "level": "INFO", "message": "Returning JSON response."}

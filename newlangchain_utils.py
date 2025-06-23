@@ -102,7 +102,7 @@ SQL_MAX_OVERFLOW = int(os.getenv("SQL_MAX_OVERFLOW", 10))
 
 SQL_DATABASE_URL = (
     f"mssql+pyodbc://{SQL_DB_USER}:{SQL_DB_PASSWORD}@{SQL_DB_SERVER}:{SQL_DB_PORT}/{SQL_DB_NAME}"
-    f"?driver={SQL_DB_DRIVER}"
+    f"?driver={SQL_DB_DRIVER}&Connection+Timeout=120"
 )
 
 
@@ -287,10 +287,11 @@ def get_sql_db(selected_subject, mahindra_tables):
             echo=False  # Set to False in production
         )
 
-        print("Connection successful")
+        
 
         # Wrap the engine in a LangChain SQLDatabase object
         db = SQLDatabase(engine)
+        print("Connection successful")
         return db
 
     except SQLAlchemyError as e:
@@ -668,7 +669,7 @@ def get_example_selector(json_file_path: str):
 
 def find_relationships_for_tables(table_names, json_file_path):
     # Load the JSON
-    with open(json_file_path, 'r') as f:
+    with open(json_file_path, 'r', encoding='utf-8') as f:
         relations_data = json.load(f)
     all_related = {}
     for table_name in table_names:

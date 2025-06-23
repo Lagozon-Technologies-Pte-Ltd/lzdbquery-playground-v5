@@ -14,7 +14,7 @@ from langchain_core.pydantic_v1 import Field
 from langchain_openai import ChatOpenAI
 from newlangchain_utils import *
 from dotenv import load_dotenv
-from state import session_state, session_lock
+# from state import session_state, session_lock
 from typing import Optional
 from starlette.middleware.sessions import SessionMiddleware  # Correct import
 from fastapi.middleware.cors import CORSMiddleware
@@ -140,8 +140,8 @@ llm = AzureChatOpenAI(
 databases = ["Azure SQL"]
 question_dropdown = os.getenv('Question_dropdown')
 
-if 'messages' not in session_state:
-    session_state['messages'] = []
+# if 'messages' not in request.session :
+#     request.session['messages'] = []
 
 class Table(BaseModel):
     """Table in SQL database."""
@@ -213,7 +213,7 @@ async def get_prompt(type: str):
     else:
         return "Invalid prompt type", 400
     try:
-        with open(filename, "r") as f:
+        with open(filename, "r",encoding='utf-8') as f:
             prompt = f.read()
         return prompt
     except FileNotFoundError:
@@ -268,7 +268,7 @@ def create_gauge_chart_json(title, value, min_val=0, max_val=100, color="blue", 
     return fig.to_json()  # Return JSON instead of an image
 
 @app.get("/get-table-columns/")
-async def get_table_columns(table_name: str):
+async def get_table_columns(table_name: str , request: Request):
     """
     Fetches the columns for a given table from the session state.
 
@@ -279,11 +279,11 @@ async def get_table_columns(table_name: str):
         JSONResponse: A JSON response containing the list of columns or an error message.
     """
     try:
-        if "tables_data" not in session_state or table_name not in session_state["tables_data"]:
+        if "tables_data" not in request.session or table_name not in request.session["tables_data"]:
             raise HTTPException(status_code=404, detail=f"Table {table_name} not found in session.")
 
         # Retrieve the DataFrame for the specified table
-        data_df = session_state["tables_data"][table_name]
+        data_df = request.session["tables_data"][table_name]
         columns = list(data_df.columns)
 
         return {"columns": columns}
@@ -406,24 +406,24 @@ class ChartRequest(BaseModel):
     chart_type: str
 
 @app.post("/generate-chart")
-async def generate_chart(request: ChartRequest):
+async def generate_chart(request0: ChartRequest, request: Request):
     """
     Generates a chart based on the provided request data.
     Handles both numeric charts and text-based Word Cloud.
     """
     try:
-        table_name = request.table_name
-        x_axis = request.x_axis
-        y_axis = request.y_axis
-        chart_type = request.chart_type
+        table_name = request0.table_name
+        x_axis = request0.x_axis
+        y_axis = request0.y_axis
+        chart_type = request0.chart_type
 
-        print(f"Received Request: {request.dict()}")
+        print(f"Received Request: {request0.dict()}")
 
         # Validate table exists
-        if "tables_data" not in session_state or table_name not in session_state["tables_data"]:
+        if "tables_data" not in request.session or table_name not in request.session["tables_data"]:
             raise HTTPException(status_code=404, detail=f"No data found for table {table_name}")
 
-        data_df = session_state["tables_data"][table_name]
+        data_df = request.session["tables_data"][table_name]
         
         # Validate columns exist
         if x_axis not in data_df.columns:
@@ -464,7 +464,7 @@ async def generate_chart(request: ChartRequest):
 
 @app.get("/download-table/")
 @app.get("/download-table")
-async def download_table(table_name: str):
+async def download_table(table_name: str, request: Request):
     """
     Downloads a table as an Excel file.
 
@@ -479,7 +479,7 @@ async def download_table(table_name: str):
         raise HTTPException(status_code=404, detail=f"Table {table_name} data not found.")
 
     # Get the table data from session_state
-    data = session_state["tables_data"][table_name]
+    data = request.session["tables_data"][table_name]
 
     # Generate Excel file
     output = download_as_excel(data, filename=f"{table_name}.xlsx")
@@ -660,8 +660,8 @@ def get_keyphrases():
                 keyphrases.append(row['keyphrases'])
     return ','.join(keyphrases)
 
-if 'messages' not in session_state:
-    session_state['messages'] = []
+# if 'messages' not in Request.session:
+#     Request.session['messages'] = []
     
 def parse_table_data(csv_file_path):
     """
@@ -755,26 +755,29 @@ async def submit_query(
         response_data = {
             "user_query": user_query,
             "chat_response": "Session restarted",
-            "history": session_state['messages'] + [{"role": "assistant", "content": "Session restarted"}]
+            "history": request.session['messages'] + [{"role": "assistant", "content": "Session restarted"}]
         }
         
         # Clear session state
-        session_state.clear()
-        session_state['messages'] = []  # Reinitialize messages array
+        request.session.clear()
+        request.session['messages'] = []  # Reinitialize messages array
         logger.info("Session restarted due to 'break' query.")
         return JSONResponse(content=response_data)        
     selected_subject = section
     selected_database= database
 
-    session_state['user_query'] = user_query
+    request.session['user_query'] = user_query
 
     # Append user's message to chat history
-    session_state['messages'].append({"role": "user", "content": user_query})
+    if "messages" not in request.session:
+        request.session["messages"] = []
+    request.session['messages'].append({"role": "user", "content": user_query})
 
     # Keep last 10 messages for better context
     chat_history = "\n".join(
-        f"{msg['role']}: {msg['content']}" for msg in session_state['messages'][-10:]
+        f"{msg['role']}: {msg['content']}" for msg in request.session['messages'][-10:]
     )  
+    print(request.session['messages'])
     logger.info(f"Chat history: {chat_history}")
     try:
        # **Step 1: Invoke Unified Prompt**
@@ -799,18 +802,18 @@ async def submit_query(
                 chosen_tables = intent_result["tables"]
             else:
                 error_msg = "Please rephrase or add more details to your question as I am not able to assess the Intended Use case"
-                session_state['messages'].append({
+                request.session['messages'].append({
                     "role": "assistant",
                     "content": error_msg
                 })
                 
                 response_data = {
-                    "user_query": session_state['user_query'],
+                    "user_query": request.session['user_query'],
                     "query": "",
                     "tables": "",
                     "llm_response": llm_reframed_query,
                     "chat_response": error_msg,
-                    "history": session_state['messages'],
+                    "history": request.session['messages'],
                     "interprompt": unified_prompt,
                     "langprompt": ""
                 }
@@ -860,7 +863,7 @@ async def submit_query(
         # print("This is my column schema",column_schema)
         # logger.info(f"table details: {table_details}")
         response, chosen_tables, tables_data, agent_executor, final_prompt,description,SQL_Statement= invoke_chain(
-                llm_reframed_query, session_state['messages'], model,
+                llm_reframed_query, request.session['messages'], model,
                 selected_subject, selected_database, table_details,
                 selected_business_rule, current_question_type, relationships,table_schema,column_schema,examples
             )
@@ -868,13 +871,13 @@ async def submit_query(
         # logger.info(f"table details: {table_details}")
 
         if isinstance(response, str):
-            session_state['generated_query'] = response
+            request.session['generated_query'] = response
             logger.info(f"Generated Query: {response}")
         else:
-            session_state['chosen_tables'] = chosen_tables
-            session_state['tables_data'] = tables_data
+            request.session['chosen_tables'] = chosen_tables
+            # request.session['tables_data'] = tables_data
             sql_query = response.get("query", "")
-            session_state['generated_query'] = sql_query
+            request.session['generated_query'] = sql_query
             logger.info(f"SQL Query: {sql_query}")
 
         # **Step 4: Generate Insights (if data exists)**
@@ -888,14 +891,14 @@ async def submit_query(
             # )
 
             # chat_insight = llm.invoke(insights_prompt).content
-            chat_insight = ""  #this text will be passed to chat_insight when insight prompt is commented
-            logger.info(f"Chat Insight: {chat_insight}")
+            # chat_insight = ""  #this text will be passed to chat_insight when insight prompt is commented
+            # logger.info(f"Chat Insight: {chat_insight}")
             
         # Append AI's response to chat history
-        session_state['messages'].append({
-            "role": "assistant",
-            "content": f" {chat_insight}\n\n"
-        })
+        # session_state['messages'].append({
+        #     "role": "assistant",
+        #     "content": f" {chat_insight}\n\n"
+        # })
         for table_name, df in tables_data.items():
             for col in df.select_dtypes(include=['number']).columns:
                 tables_data[table_name][col] = df[col].apply(format_number)
@@ -904,15 +907,16 @@ async def submit_query(
         tables_html = prepare_table_html(tables_data, page, records_per_page)
 
      
-
+        logging.info("Session contents: %s", dict(request.session))
         # **Step 7: Return Response**
         response_data = {
-            "user_query": session_state['user_query'],
-            "query": session_state['generated_query'],
+            "user_query": request.session['user_query'],
+            "query": request.session['generated_query'] ,
             "tables": tables_html,
             "llm_response": llm_reframed_query,
             "chat_response": chat_insight,
-            "history": session_state['messages'],
+            "history": request.session['messages']
+            ,
             "interprompt":unified_prompt,
             "langprompt": str(final_prompt),
             "description": description , # Add the description here
@@ -934,14 +938,14 @@ async def reset_session(request: Request):
     """
     Resets the session state by clearing the session_state dictionary.
     """
-    global session_state
-    with session_lock:
-        session_state.clear()
-        session_state['messages'] = []
-    # Reset per-user session variables
+    # global session_state
+    # with session_lock:
     request.session.clear()
+    request.session['messages'] = []
+    # Reset per-user session variables
+    request.session.session.clear()
     request.session["current_question_type"] = "generic"
-    request.session["prompts"] = load_prompts("generic_prompt.yaml")
+    request.session.session["prompts"] = load_prompts("generic_prompt.yaml")
     print("now, the que type is: ",request.session.get("current_question_type"))
     return {"message": "Session state cleared successfully"}, 200
 
@@ -986,6 +990,8 @@ async def read_root(request: Request):
     Returns:
         TemplateResponse: The rendered HTML template.
     """
+    # Clear the request.session
+    request.session.clear()
     # Extract table names dynamically
     tables = []
     # Only set defaults if not already set
@@ -1039,6 +1045,7 @@ def display_table_with_styles(data, table_name, page_number, records_per_page):
 @app.get("/get_table_data/")
 @app.get("/get_table_data")
 async def get_table_data(
+    request: Request,
     table_name: str = Query(...),
     page_number: int = Query(1),
     records_per_page: int = Query(10),
@@ -1046,11 +1053,11 @@ async def get_table_data(
     """Fetch paginated and styled table data."""
     try:
         # Check if the requested table exists in session state
-        if "tables_data" not in session_state or table_name not in session_state["tables_data"]:
+        if "tables_data" not in request.session or table_name not in request.session["tables_data"]:
             raise HTTPException(status_code=404, detail=f"Table {table_name} data not found.")
 
         # Retrieve the data for the specified table
-        data = session_state["tables_data"][table_name]
+        data = request.session["tables_data"][table_name]
         total_records = len(data)
         total_pages = (total_records + records_per_page - 1) // records_per_page
 

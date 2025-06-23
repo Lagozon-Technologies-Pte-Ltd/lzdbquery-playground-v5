@@ -372,7 +372,7 @@ async function sendMessage() {
         if (data.tables) {
             console.log()
             tableName = data.tables[0].table_name;
-            loadTableColumns(tableName)
+            // loadTableColumns(tableName)
             updatePageContent(data);
         }
     } catch (error) {
