@@ -15,7 +15,7 @@ from langchain_openai import ChatOpenAI
 from newlangchain_utils import *
 from dotenv import load_dotenv
 # from state import session_state, session_lock
-from typing import Optional
+from typing import Optional, List, Dict
 from starlette.middleware.sessions import SessionMiddleware  # Correct import
 from fastapi.middleware.cors import CORSMiddleware
 from azure.storage.blob import BlobServiceClient
@@ -400,46 +400,38 @@ def generate_chart_figure(data_df: pd.DataFrame, x_axis: str, y_axis: str, chart
         raise
 
 class ChartRequest(BaseModel):
-    table_name: str
     x_axis: str
     y_axis: str
     chart_type: str
+    table_data: List[Dict]  # List of row dicts
+
 
 @app.post("/generate-chart")
-async def generate_chart(request0: ChartRequest, request: Request):
+async def generate_chart(request0: ChartRequest):
     """
     Generates a chart based on the provided request data.
     Handles both numeric charts and text-based Word Cloud.
     """
     try:
-        table_name = request0.table_name
         x_axis = request0.x_axis
         y_axis = request0.y_axis
         chart_type = request0.chart_type
+        table_data = request0.table_data  # List of dicts
 
-        print(f"Received Request: {request0.dict()}")
+        # Convert list of dicts to DataFrame
+        data_df = pd.DataFrame(table_data)
 
-        # Validate table exists
-        if "tables_data" not in request.session or table_name not in request.session["tables_data"]:
-            raise HTTPException(status_code=404, detail=f"No data found for table {table_name}")
-
-        data_df = request.session["tables_data"][table_name]
-        
         # Validate columns exist
         if x_axis not in data_df.columns:
             raise HTTPException(status_code=400, detail=f"Column '{x_axis}' not found in data")
-            
-        # Skip y_axis validation for Word Cloud
         if chart_type != "Word Cloud" and y_axis not in data_df.columns:
             raise HTTPException(status_code=400, detail=f"Column '{y_axis}' not found in data")
 
         # Data processing based on chart type
         if chart_type == "Word Cloud":
-            # Ensure we have text data for word cloud
             if not pd.api.types.is_string_dtype(data_df[x_axis]):
                 data_df[x_axis] = data_df[x_axis].astype(str)
         else:
-            # For other charts, convert y-axis to numeric
             try:
                 data_df[y_axis] = pd.to_numeric(data_df[y_axis], errors='coerce')
                 data_df = data_df.dropna(subset=[y_axis])
@@ -450,49 +442,44 @@ async def generate_chart(request0: ChartRequest, request: Request):
 
         # Generate the chart
         fig = generate_chart_figure(data_df, x_axis, y_axis, chart_type)
-        
         if fig is None:
             raise HTTPException(status_code=400, detail="Unsupported chart type selected")
-            
+
         return JSONResponse(content={"chart": fig.to_json()})
 
     except HTTPException as he:
         raise he
     except Exception as e:
+        import traceback
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"An error occurred: {str(e)}")
+class TableDownloadRequest(BaseModel):
+    table_name: str
+    table_data: dict
 
-@app.get("/download-table/")
-@app.get("/download-table")
-async def download_table(table_name: str, request: Request):
+@app.post("/download-table")
+async def download_table(payload: TableDownloadRequest):
     """
-    Downloads a table as an Excel file.
-
-    Args:
-        table_name (str): The name of the table to download.
-
-    Returns:
-        StreamingResponse: A streaming response containing the Excel file.
+    Downloads a table as an Excel file from sent JSON data.
     """
-    # Check if the requested table exists in session state
-    if "tables_data" not in session_state or table_name not in session_state["tables_data"]:
-        raise HTTPException(status_code=404, detail=f"Table {table_name} data not found.")
+    table_name = payload.table_name
+    data_dict = payload.table_data
+    # Extract the list of rows from the dict
+    rows = data_dict.get('Table data', [])
+    # Convert to DataFrame
+    df = pd.DataFrame(rows)
 
-    # Get the table data from session_state
-    data = request.session["tables_data"][table_name]
+    logger.info("data for download: ", df)
+    # Generate Excel file (implement this function as you need)
+    output = download_as_excel(df, filename=f"{table_name}.xlsx")
 
-    # Generate Excel file
-    output = download_as_excel(data, filename=f"{table_name}.xlsx")
-
-    # Return the Excel file as a streaming response
+    # Return as streaming response
     response = StreamingResponse(
         output,
         media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
     response.headers["Content-Disposition"] = f"attachment; filename={table_name}.xlsx"
     return response
-
-
 # Replace APIRouter with direct app.post
 def format_number(x):
     if isinstance(x, int):  # Check if x is an integer
@@ -869,7 +856,7 @@ async def submit_query(
             )
         # logger.info(f"Intent table: {chosen_tables}")
         # logger.info(f"table details: {table_details}")
-
+        print("tables_data is:",tables_data)
         if isinstance(response, str):
             request.session['generated_query'] = response
             logger.info(f"Generated Query: {response}")
@@ -882,9 +869,9 @@ async def submit_query(
 
         # **Step 4: Generate Insights (if data exists)**
         chat_insight = None
-        if chosen_tables:
-            data_preview = tables_data[chosen_tables[0]].head(5).to_string(index=False) if chosen_tables else "No Data"
-            logger.info(f"Data Preview: {data_preview}")
+        # if chosen_tables:
+        #     data_preview = tables_data["Table data"].head(5).to_string(index=False) if chosen_tables else "No Data"
+        #     logger.info(f"Data Preview: {data_preview}")
             # insights_prompt = PROMPTS["insights_prompt"].format(
             #     sql_query=sql_query,
             #     table_data=tables_data
@@ -901,7 +888,7 @@ async def submit_query(
         # })
         for table_name, df in tables_data.items():
             for col in df.select_dtypes(include=['number']).columns:
-                tables_data[table_name][col] = df[col].apply(format_number)
+                tables_data["Table data"][col] = df[col].apply(format_number)
 
         # **Step 5: Prepare Table Data**
         tables_html = prepare_table_html(tables_data, page, records_per_page)
@@ -913,6 +900,7 @@ async def submit_query(
             "user_query": request.session['user_query'],
             "query": request.session['generated_query'] ,
             "tables": tables_html,
+            "tables_data" : {'Table data': tables_data['Table data'].to_dict(orient='records')},
             "llm_response": llm_reframed_query,
             "chat_response": chat_insight,
             "history": request.session['messages']
@@ -933,21 +921,22 @@ async def submit_query(
 
 # Replace APIRouter with direct app.post
 
+from fastapi import Request
+
 @app.post("/reset-session")
 async def reset_session(request: Request):
     """
-    Resets the session state by clearing the session_state dictionary.
+    Resets the session state by clearing the session dictionary.
     """
-    # global session_state
-    # with session_lock:
-    request.session.clear()
+    request.session.clear()  # Clear all session data
+
+    # Set default session variables
     request.session['messages'] = []
-    # Reset per-user session variables
-    request.session.session.clear()
     request.session["current_question_type"] = "generic"
-    request.session.session["prompts"] = load_prompts("generic_prompt.yaml")
-    print("now, the que type is: ",request.session.get("current_question_type"))
-    return {"message": "Session state cleared successfully"}, 200
+    request.session["prompts"] = load_prompts("generic_prompt.yaml")
+
+    print("now, the que type is:", request.session.get("current_question_type"))
+    return {"message": "Session state cleared successfully"}
 
 def prepare_table_html(tables_data, page, records_per_page):
     """

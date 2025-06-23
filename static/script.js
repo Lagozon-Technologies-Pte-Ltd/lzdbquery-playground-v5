@@ -5,6 +5,8 @@ let isRecording = false;
 let mediaRecorder;
 let audioChunks = [];
 let originalButtonHTML = ""; // Store the original button HTML
+let table_data = null;
+
 window.onload = function () {
     // Reset variables
     const loadingDiv = document.getElementById('loading');
@@ -15,48 +17,35 @@ window.onload = function () {
     let originalButtonHTML = "";
     console.log("Variables reset on page reload");
 };
-async function loadTableColumns(table_name) {
-    console.log("Loading columns for table:", table_name); // Debug statement
-    const selectedTable = table_name;
+function loadTableColumns(columnNames) {
+    console.log("Loading columns for table:");
 
-    if (!selectedTable) {
-        alert("Please select a table.");
+    if (!columnNames || columnNames.length === 0) {
+        alert("No columns available for this table.");
         return;
     }
 
-    try {
-        const response = await fetch(`/get-table-columns/?table_name=${selectedTable}`);
-        const data = await response.json();
+    const xAxisDropdown = document.getElementById("x-axis-dropdown");
+    const yAxisDropdown = document.getElementById("y-axis-dropdown");
 
-        if (response.ok && data.columns) {
-            const xAxisDropdown = document.getElementById("x-axis-dropdown");
-            const yAxisDropdown = document.getElementById("y-axis-dropdown");
+    // Reset dropdown options
+    xAxisDropdown.innerHTML = '<option value="" disabled selected>Select X-Axis</option>';
+    yAxisDropdown.innerHTML = '<option value="" disabled selected>Select Y-Axis</option>';
 
-            // Reset dropdown options
-            xAxisDropdown.innerHTML = '<option value="" disabled selected>Select X-Axis</option>';
-            yAxisDropdown.innerHTML = '<option value="" disabled selected>Select Y-Axis</option>';
+    // Populate options
+    columnNames.forEach((column) => {
+        const xOption = document.createElement("option");
+        const yOption = document.createElement("option");
 
-            // Populate options
-            data.columns.forEach((column) => {
-                const xOption = document.createElement("option");
-                const yOption = document.createElement("option");
+        xOption.value = column;
+        xOption.textContent = column;
 
-                xOption.value = column;
-                xOption.textContent = column;
+        yOption.value = column;
+        yOption.textContent = column;
 
-                yOption.value = column;
-                yOption.textContent = column;
-
-                xAxisDropdown.appendChild(xOption);
-                yAxisDropdown.appendChild(yOption);
-            });
-        } else {
-            alert("Failed to load columns.");
-        }
-    } catch (error) {
-        console.error("Error loading table columns:", error);
-        alert("An error occurred while fetching columns.");
-    }
+        xAxisDropdown.appendChild(xOption);
+        yAxisDropdown.appendChild(yOption);
+    });
 }
 // Add event listener for "Enter" key press in the input field
 document.getElementById("chat_user_query").addEventListener("keyup", function (event) {
@@ -77,8 +66,8 @@ async function generateChart() {
     const xAxis = xAxisDropdown.value;
     const yAxis = yAxisDropdown.value;
     const chartType = chartTypeDropdown.value;
-    selectedTable = tableName;
-    if (!selectedTable || !xAxis || !yAxis || !chartType) {
+
+    if (!xAxis || !yAxis || !chartType) {
         alert("Please select all required fields.");
         return;
     }
@@ -90,10 +79,11 @@ async function generateChart() {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                table_name: selectedTable,
                 x_axis: xAxis,
                 y_axis: yAxis,
                 chart_type: chartType,
+                // flatten if tableData is { "Table data": [...] }
+                table_data: table_data["Table data"] || table_data
             }),
         });
 
@@ -209,7 +199,7 @@ function connectToDatabase(selectedDatabase) {
         sections = [
             'Mah-POC-Azure'
         ]; // Directly specify PostgreSQL sections
-    } 
+    }
     else if (selectedDatabase == 'Azure SQL') {
         sections = [
             'Azure-SQL-DB'
@@ -251,7 +241,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('database-dropdown').value = savedDatabase;
         connectToDatabase(savedDatabase);
     }
-    
+
     if (savedSection) {
         document.getElementById('section-dropdown').value = savedSection;
         fetchQuestions(savedSection);
@@ -268,10 +258,10 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // Add this to your DOMContentLoaded event listener
-document.getElementById('section-dropdown').addEventListener('change', function() {
+document.getElementById('section-dropdown').addEventListener('change', function () {
     const selectedDatabase = document.getElementById('database-dropdown').value;
     const selectedSection = this.value;
-    
+
     if (selectedDatabase && selectedSection) {
         sessionStorage.setItem('selectedDatabase', selectedDatabase);
         sessionStorage.setItem('selectedSection', selectedSection);
@@ -291,7 +281,7 @@ async function sendMessage() {
 
     // Get selected database and section
     const selectedDatabase = document.getElementById('database-dropdown').value;
-    
+
     // Get current database and section from session storage
     const currentDatabase = sessionStorage.getItem('selectedDatabase');
     const currentSection = sessionStorage.getItem('selectedSection');
@@ -302,14 +292,14 @@ async function sendMessage() {
         return;
     }
     const selectedSection = document.getElementById('section-dropdown').value;
-    if ((selectedDatabase && selectedDatabase !== currentDatabase) || 
-    (selectedSection && selectedSection !== currentSection)) {
-    // Store the new selections in sessionStorage
-    sessionStorage.setItem('selectedDatabase', selectedDatabase);
-    sessionStorage.setItem('selectedSection', selectedSection);
-    location.reload();
-    return;
-}
+    if ((selectedDatabase && selectedDatabase !== currentDatabase) ||
+        (selectedSection && selectedSection !== currentSection)) {
+        // Store the new selections in sessionStorage
+        sessionStorage.setItem('selectedDatabase', selectedDatabase);
+        sessionStorage.setItem('selectedSection', selectedSection);
+        location.reload();
+        return;
+    }
     // Validate selection
     if (!selectedDatabase || !selectedSection) {
         alert("Please select both a database and a subject area");
@@ -369,10 +359,15 @@ async function sendMessage() {
         `;
 
         chatMessages.scrollTop = chatMessages.scrollHeight;
+        table_data = data.tables_data;
+
         if (data.tables) {
             console.log()
-            tableName = data.tables[0].table_name;
-            // loadTableColumns(tableName)
+            const rows = table_data["Table data"];
+            const columnNames = (rows && rows.length > 0) ? Object.keys(rows[0]) : [];
+
+            // Now call your function with the column names
+            loadTableColumns(columnNames);
             updatePageContent(data);
         }
     } catch (error) {
@@ -554,7 +549,7 @@ document.getElementById("table-dropdown")?.addEventListener("change", (event) =>
 function resetSession() {
     // Show a confirmation dialog first
     const confirmed = confirm("Are you sure you want to reset your session? This will clear all your current data.");
-    
+
     if (!confirmed) return;
 
     // Show loading state (assuming you have a way to display this)
@@ -565,7 +560,7 @@ function resetSession() {
             if (response.ok) {
                 // More friendly success message
                 showToastMessage("Session reset successfully! Refreshing your page...", 'success');
-                
+
                 // Brief delay before reload to let user see the message
                 setTimeout(() => {
                     location.reload();
@@ -693,13 +688,13 @@ function updatePageContent(data) {
     const faqbtn = document.getElementById("add-to-faqs-btn");
 
     // Update user query text with description if available
-    const displayText = data.description ||"";
+    const displayText = data.description || "";
     userQueryDisplay.querySelector('span').textContent = displayText;
 
     // Rest of your existing updatePageContent code...
     tablesContainer.innerHTML = "";
     xlsxbtn.innerHTML = "";
-    
+
     if (data.tables && data.tables.length > 0) {
         data.tables.forEach((table) => {
             const tableWrapper = document.createElement("div");
@@ -714,12 +709,12 @@ function updatePageContent(data) {
                 </div>
             `;
             tablesContainer.appendChild(tableWrapper);
-
+            table_data = data.tables_data;
             const downloadButton = document.createElement("button");
             downloadButton.id = `download-button-${table.table_name}`;
             downloadButton.className = "download-btn";
             downloadButton.innerHTML = `<img src="static/excel.png" alt="xlsx" class="excel-icon"> Download Excel`;
-            downloadButton.onclick = () => downloadSpecificTable(table.table_name);
+            downloadButton.onclick = () => downloadSpecificTable(table_data);
             xlsxbtn.appendChild(downloadButton);
 
             updatePaginationLinks(
@@ -736,7 +731,7 @@ function updatePageContent(data) {
     // Rest of your existing code for SQL query display...
     if (data.SQL_Statement) {
         // Format the query with newlines before assigning to textContent
-       const formattedQuery = data.SQL_Statement
+        const formattedQuery = data.SQL_Statement
             .replace(/FROM/g, '\nFROM')
             .replace(/WHERE/g, '\nWHERE')
             .replace(/INNER JOIN/g, '\nINNER JOIN')
@@ -754,18 +749,18 @@ function updatePageContent(data) {
         viewQueryBtn.id = "view-sql-query-btn";
         viewQueryBtn.onclick = showSQLQueryPopup;
         viewQueryBtn.style.display = "block";
-        
+
         const faqBtn = document.createElement("button");
         faqBtn.textContent = "Add to FAQs";
         faqBtn.id = "add-to-faqs-btn";
         faqBtn.onclick = addToFAQs;
         faqBtn.style.display = "block";
-        
+
         const emailbtn = document.createElement("button");
         emailbtn.id = "send-email-btn";
         emailbtn.textContent = "Send Email";
         emailbtn.style.display = "block";
-        
+
         xlsxbtn.appendChild(viewQueryBtn);
         xlsxbtn.appendChild(faqBtn);
         xlsxbtn.appendChild(emailbtn);
@@ -803,10 +798,38 @@ function addToFAQs() {
 /**
  * @param {any} tableName
  */
-function downloadSpecificTable(tableName) {
-    // Corrected: Using template literals to construct the URL
-    const downloadUrl = `/download-table?table_name=${encodeURIComponent(tableName)}`;
-    window.location.href = downloadUrl;
+function downloadSpecificTable(table_data) {
+    // Send a POST request with table_data as JSON
+    fetch('/download-table', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            table_name: "DBQuery_data",
+            table_data: table_data
+        })
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.blob(); // Get the binary Excel file
+        })
+        .then(blob => {
+            // Create a link to download the file
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${tableName}.xlsx`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(url);
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
 }
 /**
  *
@@ -936,7 +959,7 @@ function handleQuestionTypeChange(event) {
             // Clear chat and related UI
             document.getElementById("chat-messages").innerHTML = "";
             document.getElementById("tables_container").innerHTML = "";
-            document.getElementById("xlsx-btn").innerHTML = ""; 
+            document.getElementById("xlsx-btn").innerHTML = "";
 
             // Optionally fetch questions for the selected section
             const selectedSection = document.getElementById('section-dropdown').value;

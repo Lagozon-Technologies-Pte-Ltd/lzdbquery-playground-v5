@@ -503,37 +503,33 @@ def invoke_chain(question, messages, selected_model, selected_subject, selected_
         
 
         tables_data = {}
-        for table in mahindra_tables:
             
-            query = SQL_Statement
-            
-            
-            print(f"Executing SQL Query: {query}")
-            if selected_database=="GCP":
-                result_json = db.run(query)
-                df = pd.DataFrame(result_json)  # Convert result to DataFrame
-                tables_data[table] = df
-                break
-            elif selected_database=="PostgreSQL-Azure":
-                alchemyEngine = create_engine(f'postgresql+psycopg2://{quote_plus(db_user)}:{quote_plus(db_password)}@{db_host}:{db_port}/{db_database}')
-                with alchemyEngine.connect() as conn:
-                    df = pd.read_sql(
-                        sql=query,
-                        con=conn.connection
-                    )
-                # tables_data[table] = pd.DataFrame()
-                tables_data[table] = df
-                print(table)
-                break
-            elif selected_database == "Azure SQL":
-                print("now running via azure sql")
-                result = db._engine.execute(query)  # SQLAlchemy ResultProxy
-                print("result is: ", result)
-                rows = result.fetchall()  # list of row tuples
-                columns = result.keys()   # dynamic column names
-                df = pd.DataFrame(rows, columns=columns)
-                tables_data[table] = df
-                break
+        query = SQL_Statement
+        
+        
+        print(f"Executing SQL Query: {query}")
+        # if selected_database=="GCP":
+        #     result_json = db.run(query)
+        #     df = pd.DataFrame(result_json)  # Convert result to DataFrame
+        #     tables_data[table] = df
+        # elif selected_database=="PostgreSQL-Azure":
+        #     alchemyEngine = create_engine(f'postgresql+psycopg2://{quote_plus(db_user)}:{quote_plus(db_password)}@{db_host}:{db_port}/{db_database}')
+        #     with alchemyEngine.connect() as conn:
+        #         df = pd.read_sql(
+        #             sql=query,
+        #             con=conn.connection
+        #         )
+        #     # tables_data[table] = pd.DataFrame()
+        #     tables_data[table] = df
+        #     print(table)
+        if selected_database == "Azure SQL":
+            print("now running via azure sql")
+            result = db._engine.execute(query)  # SQLAlchemy ResultProxy
+            print("result is: ", result)
+            rows = result.fetchall()  # list of row tuples
+            columns = result.keys()   # dynamic column names
+            df = pd.DataFrame(rows, columns=columns)
+            tables_data["Table data"] = df
         return response, mahindra_tables, tables_data, db, final_prompt,description, SQL_Statement
 
 
