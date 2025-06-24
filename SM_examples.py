@@ -27,14 +27,16 @@ client = AzureOpenAI(
 def embed_query(text):
     response = client.embeddings.create(
         input=[text],
-        model=os.environ['AZURE_EMBEDDING_DEPLOYMENT_NAME']
+        model=os.environ['AZURE_EMBEDDING_DEPLOYMENT_NAME'],
+     
+        
     )
     return response.data[0].embedding
 
 
 def get_examples(query: str):
     query_embedding = embed_query(query)
-
+    
     example_results = schema_collection.query(
         query_embeddings=[query_embedding],
         n_results=2
@@ -43,13 +45,13 @@ def get_examples(query: str):
 
     example_result = []
   
-    for id , document in zip(example_results['ids'][0], example_results['documents'][0]):
+    for  document , metadata in zip( example_results['documents'][0], example_results['metadatas'][0]):
         
-        example_result.append({"input": id, "query": document})
+        example_result.append({"input": document, "query": metadata})
       
 
    
     return example_result
 
 
-# print(get_examples("Show all customer verbatim entries for a specific RO RO25A007880"))
+print(get_examples("Show all customer verbatim entries for a specific RO RO25A007880"))
