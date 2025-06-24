@@ -61,18 +61,23 @@ def prepare_ingest(items):
 
     inputs = [item['input'] for item in items]
     queries = [item['query'] for item in items]
+   
     # Serialize metadata fields as needed
-    # metadatas = [serialize_metadata(item['metadata']) for item in items]
+    # metadatas = [serialize_metadata(item['query']) for item in items]
     return inputs,queries
 
 inputs,queries = prepare_ingest(examples)
 
+print(f"this is our inputs{inputs}")
+print(f"this is our queries{queries}")
 
-# print(queries)
-
+ids = [f"sql_pair_{i}" for i in range(len(inputs))]
+metadatas = [{"query": query} for query in queries]
 
 # Ingest into ChromaDB
 schema_collection.add(
-   ids=inputs,
-  documents=queries
+   ids=ids,
+  documents=inputs,
+  metadatas= metadatas
+  
 )
