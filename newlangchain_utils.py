@@ -366,8 +366,7 @@ def get_chain(question, _messages, selected_model, selected_subject, selected_da
             return "\n".join(
                 f"- {item['identity']} (Euclidean_distance: {item['distance']:.2f})\n"
                 f"  Description: {item['document']}\n"
-                f"  Metadata: {meta_to_str(item['metadata'])}\n"
-                f"  Examples : {item['examples']}"
+                f"  Metadata: {meta_to_str(item['metadata'])}"
                 for item in schema_list
             )
 
@@ -379,10 +378,12 @@ def get_chain(question, _messages, selected_model, selected_subject, selected_da
             lines = []
             for i, ex in enumerate(examples, 1):
                 lines.append(f"Example {i}:")
-                for k, v in ex.items():
-                    lines.append(f"  {k}: {v}")
+                lines.append(f"  input: {ex['input']}")
+                lines.append(f"  query: {ex['query']['query']}")  # Access nested query
                 lines.append("")  # blank line between examples
             return "\n".join(lines)
+  
+        examples_str = examples_to_str(examples)
         
         examples_str = examples_to_str(examples)
         
@@ -504,37 +505,33 @@ def invoke_chain(question, messages, selected_model, selected_subject, selected_
         
 
         tables_data = {}
-        for table in mahindra_tables:
             
-            query = SQL_Statement
-            
-            
-            print(f"Executing SQL Query: {query}")
-            if selected_database=="GCP":
-                result_json = db.run(query)
-                df = pd.DataFrame(result_json)  # Convert result to DataFrame
-                tables_data[table] = df
-                break
-            elif selected_database=="PostgreSQL-Azure":
-                alchemyEngine = create_engine(f'postgresql+psycopg2://{quote_plus(db_user)}:{quote_plus(db_password)}@{db_host}:{db_port}/{db_database}')
-                with alchemyEngine.connect() as conn:
-                    df = pd.read_sql(
-                        sql=query,
-                        con=conn.connection
-                    )
-                # tables_data[table] = pd.DataFrame()
-                tables_data[table] = df
-                print(table)
-                break
-            elif selected_database == "Azure SQL":
-                print("now running via azure sql")
-                result = db._engine.execute(query)  # SQLAlchemy ResultProxy
-                print("result is: ", result)
-                rows = result.fetchall()  # list of row tuples
-                columns = result.keys()   # dynamic column names
-                df = pd.DataFrame(rows, columns=columns)
-                tables_data[table] = df
-                break
+        query = SQL_Statement
+        
+        
+        print(f"Executing SQL Query: {query}")
+        # if selected_database=="GCP":
+        #     result_json = db.run(query)
+        #     df = pd.DataFrame(result_json)  # Convert result to DataFrame
+        #     tables_data[table] = df
+        # elif selected_database=="PostgreSQL-Azure":
+        #     alchemyEngine = create_engine(f'postgresql+psycopg2://{quote_plus(db_user)}:{quote_plus(db_password)}@{db_host}:{db_port}/{db_database}')
+        #     with alchemyEngine.connect() as conn:
+        #         df = pd.read_sql(
+        #             sql=query,
+        #             con=conn.connection
+        #         )
+        #     # tables_data[table] = pd.DataFrame()
+        #     tables_data[table] = df
+        #     print(table)
+        if selected_database == "Azure SQL":
+            print("now running via azure sql")
+            result = db._engine.execute(query)  # SQLAlchemy ResultProxy
+            print("result is: ", result)
+            rows = result.fetchall()  # list of row tuples
+            columns = result.keys()   # dynamic column names
+            df = pd.DataFrame(rows, columns=columns)
+            tables_data["Table data"] = df
         return response, mahindra_tables, tables_data, db, final_prompt,description, SQL_Statement
 
 
