@@ -27,7 +27,8 @@ client = AzureOpenAI(
 def embed_query(text):
     response = client.embeddings.create(
         input=[text],
-        model=os.environ['AZURE_EMBEDDING_DEPLOYMENT_NAME']
+        model=os.environ['AZURE_EMBEDDING_DEPLOYMENT_NAME'],
+        
     )
     return response.data[0].embedding
 
@@ -35,31 +36,47 @@ def embed_query(text):
 def get_table_and_column_schema(query: str):
     query_embedding = embed_query(query)
 
+    # Query tables
     table_results = schema_collection.query(
         query_embeddings=[query_embedding],
         n_results=4,
-        where={"type": "table"}
+        where={"type": "table"}  # Ensure metadata has "type": "table"
     )
 
     table_schema = []
-    table_names = []
-    for distance, id, doc, meta in zip(table_results['distances'][0], table_results['ids'][0], table_results['documents'][0], table_results['metadatas'][0]):
-        
-        table_schema.append({"distance": distance, "identity": id, "document": doc, "metadata": meta})
-        table_names.append(id)
+    for distance, id, doc, meta in zip(
+        table_results["distances"][0],
+        table_results["ids"][0],          # Use 'ids' (not 'column_name')
+        table_results["documents"][0],
+        table_results["metadatas"][0]
+    ):
+        table_schema.append({
+            "distance": distance,
+            "identity": id,
+            "document": doc,
+            "metadata": meta
+        })
 
+    # Query columns
     column_results = schema_collection.query(
         query_embeddings=[query_embedding],
-        n_results=10,
-        where={"type": "column"}  
+        n_results=20,
+        where={"type": "column"}  # Ensure metadata has "type": "column"
     )
 
     column_schema = []
-    for distance, id, doc, meta in zip(column_results['distances'][0], column_results['ids'][0], column_results['documents'][0], column_results['metadatas'][0]):
-        column_schema.append({"distance": distance, "identity": id, "document": doc, "metadata": meta})
-    
-    # print(type(table_schema), type(column_schema))
+    for distance, id, doc, meta in zip(
+        column_results["distances"][0],
+        column_results["ids"][0],         # Use 'ids' (not 'column_name')
+        column_results["documents"][0],
+        column_results["metadatas"][0]
+    ):
+        column_schema.append({
+            "distance": distance,
+            "identity": id,
+            "document": doc,
+            "metadata": meta
+        })
+
     return table_schema, column_schema
-
-
 # print(get_table_and_column_schema("list the part amount and the labour amount for the RO RO25A007880"))
