@@ -83,6 +83,7 @@
   -- DO NOT OMIT SQUARE BRACKETS UNDER ANY CONDITION.
 
 
+
 ## Window Functions
 - Use window functions like ROW_NUMBER(), RANK(), DENSE_RANK(), LAG(), LEAD() appropriately.
 - For LAG(), LEAD(), etc., use ORDER BY DATEADD(MONTH, DATEDIFF(MONTH, 0, [Date]), 0) or DATEADD(QUARTER, ...) within the OVER() clause.
@@ -148,6 +149,9 @@ IMPORTANT:
 # Examples :
  {examples}
 
+# Relationship : 
+{relationships}
+
 # Final Output Rules
 - Return only the final SELECT query.
 - Do not wrap it in backticks or markdown formatting.
@@ -200,3 +204,4 @@ IMPORTANT: JSON Output Safety Rules
 - The entire JSON object must be valid and parseable.
 - No control characters like unescaped tabs, newlines, or carriage returns.
 - Wrap final output in a markdown ```json code block.
+
