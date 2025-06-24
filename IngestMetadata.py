@@ -49,35 +49,37 @@ schema_collection = client.get_or_create_collection(
 )
 
 
+def serialize_metadata(metadata):
+    return {
+        k: json.dumps(v) if isinstance(v, (list, dict)) else v
+        for k, v in metadata.items()
+    }
+
+# def prepare_ingest(items):
+#     filtered_items = [item for item in items if isinstance(item, dict) and 'id' in item]
+#     ids = [item['id'] for item in filtered_items]
+#     documents = [item['document'] for item in filtered_items]
+#     metadatas = [item['metadata'] for item in filtered_items]
+#     return ids, documents, metadatas
+
 def prepare_ingest(items):
     ids = []
     documents = []
     metadatas = []
-    examples = []
 
     for item in items:
         if "column_name" in item:  # Column
             ids.append(item["column_name"])
             documents.append(item["column_desc"])
             metadatas.append(serialize_metadata(item["metadata"]))
-            examples.append(item.get("examples", []))  # Safely get examples or empty list
         elif "table_name" in item:  # Table
             ids.append(item["table_name"])
             documents.append(item["table_desc"])
             metadatas.append(serialize_metadata(item["metadata"]))
-            examples.append(item.get("examples", []))  # Optional: handle for table too if needed
+    
+    return ids, documents, metadatas
 
-    return ids, documents, metadatas, examples
-
-
-def serialize_metadata(metadata):
-    return {
-        k: json.dumps(v) if isinstance(v, (list, dict)) else v
-        for k, v in metadata.items()
-    }
-                    
-                            
-ids, documents, metadatas , examples = prepare_ingest(columns + tables)
+ids, documents, metadatas = prepare_ingest(columns + tables)
 
 # Ingest into ChromaDB
 schema_collection.add(
