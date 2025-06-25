@@ -426,9 +426,11 @@ def get_chain(question, _messages, selected_model, selected_subject, selected_da
     #     final_prompt=final_prompt2    
     generate_query = create_sql_query_chain(llm, db, final_prompt)
     SQL_Statement_json = generate_query.invoke({"question": question, "messages": _messages})
-
+    json_string = SQL_Statement_json.strip('`').replace('json', '', 1).strip()
+    SQL_Statement_json= json_string
+    
     # DEBUG: print raw output
-    print(f"[DEBUG] Raw model output:\n{SQL_Statement_json}")
+    print(f"[DEBUG] Raw model output for this:\n{SQL_Statement_json}")
 
     # Try to extract SQL from JSON, fallback to plain SQL string
     try:
