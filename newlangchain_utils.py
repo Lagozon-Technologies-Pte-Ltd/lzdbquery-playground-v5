@@ -428,7 +428,7 @@ def get_chain(question, _messages, selected_model, selected_subject, selected_da
     SQL_Statement_json = generate_query.invoke({"question": question, "messages": _messages})
     json_string = SQL_Statement_json.strip('`').replace('json', '', 1).strip()
     SQL_Statement_json= json_string
-    
+
     # DEBUG: print raw output
     print(f"[DEBUG] Raw model output for this:\n{SQL_Statement_json}")
 
