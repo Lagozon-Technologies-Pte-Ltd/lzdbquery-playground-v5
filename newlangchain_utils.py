@@ -425,16 +425,16 @@ def get_chain(question, _messages, selected_model, selected_subject, selected_da
 
     #     final_prompt=final_prompt2    
     generate_query = create_sql_query_chain(llm, db, final_prompt)
-    SQL_Statement = generate_query.invoke({"question": question, "messages": _messages})
+    SQL_Statement_json = generate_query.invoke({"question": question, "messages": _messages})
 
     # DEBUG: print raw output
-    print(f"[DEBUG] Raw model output:\n{SQL_Statement}")
+    print(f"[DEBUG] Raw model output:\n{SQL_Statement_json}")
 
     # Try to extract SQL from JSON, fallback to plain SQL string
     try:
        # If the model returned a string, try loading it
-        if isinstance(SQL_Statement, str):
-            SQL_Statement_stripped = SQL_Statement.strip()
+        if isinstance(SQL_Statement_json, str):
+            SQL_Statement_stripped = SQL_Statement_json.strip()
 
             # Check if it starts with "{" – then assume JSON
             if SQL_Statement_stripped.startswith("{"):
@@ -474,7 +474,7 @@ def get_chain(question, _messages, selected_model, selected_subject, selected_da
     
         
     
-    return chain,  SQL_Statement, db,final_prompt1
+    return chain,  SQL_Statement_json, db,final_prompt1
 
 
 
@@ -488,12 +488,11 @@ def invoke_chain(question, messages, selected_model, selected_subject, selected_
             selected_database, table_info, selected_business_rule, question_type, relationships,table_schema,column_schema,examples
         )
         clean_json = re.sub(r"^```json|```$", "", SQL_Statement.strip(), flags=re.MULTILINE).strip()
-        data = json.loads(clean_json)        
+        data = json.loads(clean_json)      
         SQL_Statement = data["query"]
         description = data["description"]
-        print(f"Generated SQL Statement in newlangchain_utils: {SQL_Statement}")
-        print(f"Generated SQL Statement in newlangchain_utils: {description}")
-
+       
+     
         response = chain.invoke({
             "question": question,           # <-- Correct key
             "top_k": 1,  #changed from 3 to 1
