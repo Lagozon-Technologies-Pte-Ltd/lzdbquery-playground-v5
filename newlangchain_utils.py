@@ -387,21 +387,16 @@ def get_chain(question, _messages, selected_model, selected_subject, selected_da
         
         examples_str = examples_to_str(examples)
         
-        final_prompt1 = ChatPromptTemplate.from_messages(
-        [
-        ("system", static_prompt.format(
+        final_prompt1 = static_prompt.format(
             table_info=table_details,
             Business_Glossary=business_glossary,
-            relationships=relationships_str,
+            relationships=relationships_str, #relationships_str
             table_schema=table_schema_str,  # Contains distance in its structure
-            column_schema=column_schema_str , # Contains distance in its structure
-            examples=examples_str
-        )),
-        few_shot_prompt,
-        MessagesPlaceholder(variable_name="messages"),
-        ("human", "{input}"),
-    ]
-)
+            column_schema=column_schema_str, # Contains distance in its structure
+            examples= examples_str      #examples_str
+        )
+
+
 
     elif question_type =="usecase":
         final_prompt1 = ChatPromptTemplate.from_messages(
@@ -424,59 +419,69 @@ def get_chain(question, _messages, selected_model, selected_subject, selected_da
     print("Generate Query Starting")
 
     #     final_prompt=final_prompt2    
-    generate_query = create_sql_query_chain(llm, db, final_prompt)
-    SQL_Statement_json = generate_query.invoke({"question": question, "messages": _messages})
-    json_string = SQL_Statement_json.strip('`').replace('json', '', 1).strip()
-    SQL_Statement_json= json_string
+    # generate_query = create_sql_query_chain(llm, db, final_prompt)
+    # SQL_Statement_json = generate_query.invoke({"question": question, "messages": _messages})
+    # json_string = SQL_Statement_json.strip('`').replace('json', '', 1).strip()
+    # SQL_Statement_json= json_string
 
-    # DEBUG: print raw output
-    print(f"[DEBUG] Raw model output for this:\n{SQL_Statement_json}")
+    # # DEBUG: print raw output
+    # print(f"[DEBUG] Raw model output for this:\n{SQL_Statement_json}")
 
     # Try to extract SQL from JSON, fallback to plain SQL string
+# --- LLM Invocation with JSON Mode ---
     try:
-       # If the model returned a string, try loading it
-        if isinstance(SQL_Statement_json, str):
-            SQL_Statement_stripped = SQL_Statement_json.strip()
+        response = azure_openai_client.chat.completions.create(
+            model=AZURE_DEPLOYMENT_NAME,
+            messages=[
+            {"role": "system", "content": final_prompt},
+            {"role": "user", "content": question}
+        ],
+        temperature=0,  # Lower temperature for more predictable, structured output
+        response_format={"type": "json_object"}  # This is the key parameter!
+        )
 
-            # Check if it starts with "{" – then assume JSON
-            if SQL_Statement_stripped.startswith("{"):
-                data = json.loads(SQL_Statement_stripped)
-                SQL_Statement = data["query"]
-            else:
-                print("[WARNING] Output not JSON, using raw SQL string.")
-        elif isinstance(SQL_Statement, dict):
-            # Already a parsed dictionary (unlikely unless something changed upstream)
-            SQL_Statement = SQL_Statement.get("query", "")
-        else:
-            raise ValueError("Unexpected format for SQL_Statement.")
+    # The response content will be a JSON string
+        response_content = response.choices[0].message.content
+        
+        # Parse the guaranteed JSON string into a Python dictionary
+        json_output = json.loads(response_content)
+
+        # Now you can safely access the keys
+        print("--- LLM Output (Parsed) ---")
+        print(f"Description: {json_output.get('description')}")
+
+        SQL_Statement = json_output.get('query')
+        print(f"Query: {json_output.get('query')}")
+        print(f"Error: {json_output.get('error')}")
+
     except Exception as e:
-        print("[ERROR] Failed to parse SQL statement:", e)
-        raise e
+        print(f"An error occurred: {e}")
+        
 
 
     print(f"Generated SQL Statement before execution: {SQL_Statement}")
    
     
     
-    # Override QuerySQLDataBaseTool validation
-    class CustomQuerySQLDatabaseTool(QuerySQLDataBaseTool):
-        def __init__(self, db):
-            if not isinstance(db, SQLDatabase):
-                raise ValueError("db must be an instance of SQLDatabase")
-            super().__init__(db=db)
+    # # Override QuerySQLDataBaseTool validation
+    # class CustomQuerySQLDatabaseTool(QuerySQLDataBaseTool):
+    #     def __init__(self, db):
+    #         if not isinstance(db, SQLDatabase):
+    #             raise ValueError("db must be an instance of SQLDatabase")
+    #         super().__init__(db=db)
 
-    execute_query = CustomQuerySQLDatabaseTool(db=db)
+    # execute_query = CustomQuerySQLDatabaseTool(db=db)
     
-    chain = (
-        RunnablePassthrough.assign(table_names_to_use=lambda _: db.get_table_names()) |  # Get table names
-        RunnablePassthrough.assign(query=generate_query).assign(
-            result=itemgetter("query")
-        )
-    )
+    # chain = (
+    #     RunnablePassthrough.assign(table_names_to_use=lambda _: db.get_table_names()) |  # Get table names
+    #     RunnablePassthrough.assign(query=generate_query).assign(
+    #         result=itemgetter("query")
+    #     )
+    # )
     
         
     
-    return chain,  SQL_Statement_json, db,final_prompt1
+    return json_output, final_prompt1
 
 
 
@@ -485,24 +490,17 @@ def invoke_chain(question, messages, selected_model, selected_subject, selected_
     try:
         print('Model used:', selected_model)
         history = create_history(messages)
-        chain, SQL_Statement, db, final_prompt = get_chain(
+        json_output, final_prompt1 = get_chain(
             question, history.messages, selected_model, selected_subject,
             selected_database, table_info, selected_business_rule, question_type, relationships,table_schema,column_schema,examples
         )
-        clean_json = re.sub(r"^```json|```$", "", SQL_Statement.strip(), flags=re.MULTILINE).strip()
-        data = json.loads(clean_json)      
-        SQL_Statement = data["query"]
-        description = data["description"]
+        SQL_Statement = json_output["query"]
+        description = json_output["description"]
        
      
-        response = chain.invoke({
-            "question": question,           # <-- Correct key
-            "top_k": 1,  #changed from 3 to 1
-            "messages": history.messages,
-            "table_details": table_info  # <-- Required by your prompt
-        })
+       
         print("Question:", question)
-        print("Response:", response)
+        print("Response:", SQL_Statement)
         
 
         tables_data = {}
@@ -527,13 +525,14 @@ def invoke_chain(question, messages, selected_model, selected_subject, selected_
         #     print(table)
         if selected_database == "Azure SQL":
             print("now running via azure sql")
+            db = get_sql_db(selected_subject, mahindra_tables)
             result = db._engine.execute(query)  # SQLAlchemy ResultProxy
             print("result is: ", result)
             rows = result.fetchall()  # list of row tuples
             columns = result.keys()   # dynamic column names
             df = pd.DataFrame(rows, columns=columns)
             tables_data["Table data"] = df
-        return response, mahindra_tables, tables_data, db, final_prompt,description, SQL_Statement
+        return json_output, mahindra_tables, tables_data, final_prompt1,description, SQL_Statement
 
 
     except Exception as e:
