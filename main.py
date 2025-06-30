@@ -849,7 +849,7 @@ async def submit_query(
         # print("This is my table schema",table_schema)
         # print("This is my column schema",column_schema)
         # logger.info(f"table details: {table_details}")
-        response, chosen_tables, tables_data, agent_executor, final_prompt,description,SQL_Statement= invoke_chain(
+        response, chosen_tables, tables_data, final_prompt,description,SQL_Statement= invoke_chain(
                 llm_reframed_query, request.session['messages'], model,
                 selected_subject, selected_database, table_details,
                 selected_business_rule, current_question_type, relationships,table_schema,column_schema,examples
