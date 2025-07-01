@@ -346,7 +346,8 @@ async function sendMessage() {
         const langdata = data.langprompt.match(/template='([\s\S]*?)'\)\),/);
         let promptText = langdata ? langdata[1] : "Not found";
         promptText = promptText.replace(/\\n/g, '\n');
-        document.getElementById("lang-prompt-content").textContent = promptText;
+        console.log("promptText ", data.promptText);
+        document.getElementById("lang-prompt-content").textContent = data.langprompt;
         Prism.highlightElement(document.getElementById("lang-prompt-content"));
         document.getElementById("interp-prompt-content").textContent = data.interprompt;
         chatMessages.innerHTML += `
