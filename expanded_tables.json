@@ -1,7 +1,7 @@
 [
   {
-    "id": " mh_ro_hdr_details",
-    "document": "Repair Order Header: Central table for repair lifecycle. Use as the primary (left) table in joins. Related tables (labor, parts, customer feedback) may not always have matching records for every repair order; use LEFT OUTER JOIN when querying them.",
+    "table_name": " mh_ro_hdr_details",
+    "table_desc": "Repair Order Header: Central table for repair lifecycle. Use as the primary (left) table in joins. Related tables (labor, parts, customer feedback) may not always have matching records for every repair order; use LEFT OUTER JOIN when querying them.",
     "metadata": {
       "type": "table",
       "primary_key": "SV_RO_BILL_HDR_SK",
@@ -45,8 +45,8 @@
     }
   },
   {
-    "id": " mh_ro_labour",
-    "document": "Repair Order Labour: Details of labor for repair orders. Use LEFT OUTER JOIN from repair order header, as not every order has labor.",
+    "table_name": " mh_ro_labour",
+    "table_desc": "Repair Order Labour: Details of labor for repair orders. Use LEFT OUTER JOIN from repair order header, as not every order has labor.",
     "metadata": {
       "type": "table",
       "primary_key": "SV_RO_BILL_HDR_SK",
@@ -62,8 +62,8 @@
     }
   },
   {
-    "id": " mh_ro_parts",
-    "document": "Repair Order Parts: Details of parts for repair orders. Use LEFT OUTER JOIN from repair order header, as not every order has parts.",
+    "table_name": " mh_ro_parts",
+    "table_desc": "Repair Order Parts: Details of parts for repair orders. Use LEFT OUTER JOIN from repair order header, as not every order has parts.",
     "metadata": {
       "type": "table",
       "primary_key": "SV_RO_BILL_HDR_SK",
@@ -79,8 +79,8 @@
     }
   },
   {
-    "id": " mh_cust_verbatim",
-    "document": "Customer Verbatim: Customer feedback for repair orders. Use LEFT OUTER JOIN from repair order header, as not every order has feedback.",
+    "table_name": " mh_cust_verbatim",
+    "table_desc": "Customer Verbatim: Customer feedback for repair orders. Use LEFT OUTER JOIN from repair order header, as not every order has feedback.",
     "metadata": {
       "type": "table",
       "primary_key": "sv_ro_hdr_sk",
@@ -96,8 +96,8 @@
     }
   },
   {
-    "id": " mh_model_master",
-    "document": "Vehicle Model Master: Details about vehicle models. Use LEFT OUTER JOIN from repair order header, as not every order has a model code.",
+    "table_name": " mh_model_master",
+    "table_desc": "Vehicle Model Master: Details about vehicle models. Use LEFT OUTER JOIN from repair order header, as not every order has a model code.",
     "metadata": {
       "type": "table",
       "primary_key": "MODL_CD",
@@ -113,8 +113,8 @@
     }
   },
   {
-    "id": " mh_ad_ai_dimension",
-    "document": "Dealer & Sales Hierarchy: Dealer and sales hierarchy data. Use LEFT OUTER JOIN from repair order header, as not every order has a location code.",
+    "table_name": " mh_ad_ai_dimension",
+    "table_desc": "Dealer & Sales Hierarchy: Dealer and sales hierarchy data. Use LEFT OUTER JOIN from repair order header, as not every order has a location code.",
     "metadata": {
       "type": "table",
       "primary_key": "parnt_grop loctn_cd prodct_divsn",
