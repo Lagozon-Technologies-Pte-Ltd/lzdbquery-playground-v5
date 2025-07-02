@@ -145,12 +145,12 @@ IMPORTANT:
 # The schema of column is:
  {column_schema}
 
-
 # Examples :
-" "
+ {examples}
 
 # Relationship : 
-" " 
+ {relationships}
+
 # Final Output Rules
 - Return only the final SELECT query.
 - Do not wrap it in backticks or markdown formatting.
