@@ -1,17 +1,16 @@
-from fastapi import FastAPI, Form, HTTPException, Query, UploadFile, File
+from fastapi import FastAPI, Form, HTTPException, Query, UploadFile, File, Depends
 from fastapi.responses import HTMLResponse, JSONResponse, StreamingResponse
 from fastapi.templating import Jinja2Templates
 from starlette.requests import Request
 from fastapi.staticfiles import StaticFiles
-from langchain_openai import ChatOpenAI
+# from langchain_openai import ChatOpenAI
 import plotly.graph_objects as go, plotly.express as px
 import openai, yaml, os, csv,pandas as pd, base64, uuid
 from configure import gauge_config
-from pydantic import BaseModel
+from pydantic import BaseModel,Field
 from io import BytesIO, StringIO
-from langchain.chains.openai_tools import create_extraction_chain_pydantic
-from langchain_core.pydantic_v1 import Field
-from langchain_openai import ChatOpenAI
+# from langchain.chains.openai_tools import create_extraction_chain_pydantic
+# from langchain_openai import ChatOpenAI
 from newlangchain_utils import *
 from dotenv import load_dotenv
 # from state import session_state, session_lock
@@ -27,12 +26,108 @@ import zipfile
 from wordcloud import WordCloud
 from table_details import get_table_details, get_table_metadata  # Importing the function
 from openai import AzureOpenAI
-from langchain_openai import AzureChatOpenAI
+# from langchain_openai import AzureChatOpenAI
 from SM import get_table_and_column_schema
 from SM_examples import get_examples
 import os 
-
+from contextlib import asynccontextmanager
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, Session
+import chromadb
+from chromadb.utils import embedding_functions
+from routers.submit1 import router as submit_router
 fetch_semantic_schema = os.environ.get('fetch_semantic_schema')
+# Import routers
+# from routers.llm_route import router as llm_router
+# from routers.db_route import router as db_router
+# from routers.embeddings_route import router as embeddings_router
+from dependencies import  get_db
+
+SQL_DB_SERVER = os.getenv("SQL_DB_SERVER")
+SQL_DB_PORT = os.getenv("SQL_DB_PORT")
+SQL_DB_NAME = os.getenv("SQL_DB_NAME")
+SQL_DB_USER = os.getenv("SQL_DB_USER")
+SQL_DB_PASSWORD = os.getenv("SQL_DB_PASSWORD")
+SQL_DB_DRIVER = os.getenv("SQL_DB_DRIVER").replace(" ", "+")  # URL encode spaces
+SQL_POOL_SIZE = int(os.getenv("SQL_POOL_SIZE", 5))
+SQL_MAX_OVERFLOW = int(os.getenv("SQL_MAX_OVERFLOW", 10))
+
+SQL_DATABASE_URL = (
+    f"mssql+pyodbc://{SQL_DB_USER}:{SQL_DB_PASSWORD}@{SQL_DB_SERVER}:{SQL_DB_PORT}/{SQL_DB_NAME}"
+    f"?driver={SQL_DB_DRIVER}&Connection+Timeout=120"
+)
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Azure OpenAI LLM
+    # app.state.azure_openai_client = AzureOpenAI(
+    #     azure_deployment=os.environ["AZURE_DEPLOYMENT_NAME"],
+    #     api_key=os.environ["AZURE_OPENAI_API_KEY"],
+    #     api_version=os.environ.get("AZURE_OPENAI_API_VERSION", "2024-02-01"),
+    #     azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"]
+    # )
+
+    # Azure SQL DB
+    engine = create_engine(
+        SQL_DATABASE_URL,
+        pool_size=int(SQL_POOL_SIZE),
+        max_overflow=int(SQL_MAX_OVERFLOW),
+        echo=False
+    )
+    app.state.engine = engine
+    app.state.SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+    # ChromaDB Embeddings
+    # with open("sql_query_examples.json", encoding="utf-8") as f:
+    #     examples = json.load(f)
+    # openai_ef = embedding_functions.OpenAIEmbeddingFunction(
+    #     api_key=os.environ["AZURE_OPENAI_API_KEY"],
+    #     api_base=os.environ["AZURE_OPENAI_ENDPOINT"],
+    #     api_type="azure",
+    #     api_version=os.environ.get("AZURE_OPENAI_API_VERSION", "2024-02-01"),
+    #     model_name=os.environ["AZURE_EMBEDDING_DEPLOYMENT_NAME"]
+    # )
+    # chroma_client = chromadb.PersistentClient(path=os.environ["Chroma_Query_Examples"])
+    # schema_collection = chroma_client.get_or_create_collection(
+    #     name="example_elements",
+    #     embedding_function=openai_ef
+    # )
+    # def prepare_ingest(items):
+    #     inputs = [item['input'] for item in items]
+    #     queries = [item['query'] for item in items]
+    #     return inputs, queries
+    # inputs, queries = prepare_ingest(examples)
+    # ids = [f"sql_pair_{i}" for i in range(len(inputs))]
+    # metadatas = [{"query": query} for query in queries]
+    # if schema_collection.count() == 0:
+    #     schema_collection.add(
+    #         ids=ids,
+    #         documents=inputs,
+    #         metadatas=metadatas
+    #     )
+    # app.state.chroma_client = chroma_client
+    # app.state.schema_collection = schema_collection
+
+    # # Azure Redis Cache (async)
+    # app.state.redis_client = redis.Redis(
+    #     host=os.environ["REDIS_HOST"],
+    #     port=int(os.environ.get("REDIS_PORT", 6380)),
+    #     password=os.environ["REDIS_KEY"],
+    #     ssl=True,
+    #     decode_responses=True,
+    #     max_connections=20
+    # )
+
+    yield
+
+    engine.dispose()
+
+app = FastAPI(lifespan=lifespan)
+app.include_router(submit_router)
+# Register routers
+# app.include_router(llm_router, prefix="/llm")
+# app.include_router(db_router, prefix="/db")
+# app.include_router(embeddings_router, prefix="/embeddings")
 
 
 # Configure logging
@@ -76,7 +171,7 @@ logger = logging.getLogger("app")
 
 load_dotenv()  # Load environment variables from .env file
 
-app = FastAPI()
+
 app.add_middleware(SessionMiddleware, secret_key="your-secret-key")
 app.add_middleware(LoggingMiddleware)
 # Set up static files and templates
@@ -129,13 +224,13 @@ azure_openai_client = AzureOpenAI(
     azure_endpoint=AZURE_OPENAI_ENDPOINT
 )
 
-llm = AzureChatOpenAI(
-    openai_api_version=AZURE_OPENAI_API_VERSION,
-    azure_deployment=AZURE_DEPLOYMENT_NAME,
-    azure_endpoint=AZURE_OPENAI_ENDPOINT,
-    api_key=AZURE_OPENAI_API_KEY,
-    temperature=0
-)
+# llm = AzureChatOpenAI(
+#     openai_api_version=AZURE_OPENAI_API_VERSION,
+#     azure_deployment=AZURE_DEPLOYMENT_NAME,
+#     azure_endpoint=AZURE_OPENAI_ENDPOINT,
+#     api_key=AZURE_OPENAI_API_KEY,
+#     temperature=0
+# )
 
 databases = ["Azure SQL"]
 question_dropdown = os.getenv('Question_dropdown')
@@ -728,13 +823,16 @@ def parse_table_data(csv_file_path):
 
 @app.post("/submit")
 async def submit_query(
+
     request: Request,
     section: str = Form(...),
     database: str = Form(...), 
     user_query: str = Form(...),
     page: int = Query(1),
     records_per_page: int = Query(10),
-    model: Optional[str] = Form(AZURE_DEPLOYMENT_NAME)
+    model: Optional[str] = Form(AZURE_DEPLOYMENT_NAME),
+    db: Session = Depends(get_db),
+
 ):
     logger.info(f"Received /submit request with query: {user_query}, section: {section}, page: {page}, records_per_page: {records_per_page}, model: {model}")
     if user_query.lower() == 'break':
@@ -778,7 +876,23 @@ async def submit_query(
         # For usecase specific logic
         if current_question_type == "usecase":
             unified_prompt = prompts["unified_prompt"].format(user_query=user_query, chat_history=chat_history, key_parameters=key_parameters, keyphrases=keyphrases)
-            llm_reframed_query = llm.invoke(unified_prompt).content.strip()
+            # llm_reframed_query = llm.invoke(unified_prompt).content.strip()
+            response = azure_openai_client.chat.completions.create(
+                    model=AZURE_DEPLOYMENT_NAME,
+                    messages=[
+                    {"role": "system", "content": unified_prompt},
+                    {"role": "user", "content": user_query}
+                ],
+                temperature=0,  # Lower temperature for more predictable, structured output
+                response_format={"type": "json_object"}  # This is the key parameter!
+                )
+            response_content = response.choices[0].message.content
+                
+            # Parse the guaranteed JSON string into a Python dictionary
+            json_output = json.loads(response_content)
+            logger.info(f"json output in usecase: {json_output}")
+            # Now you can safely access the keys
+            llm_reframed_query = json_output.get("rephrased_query")
             logger.info(f"LLM Unified Prompt Response: {llm_reframed_query}")
             intent_result = intent_classification(llm_reframed_query)
             logger.info(f"Intent Result: {intent_result}")
@@ -819,17 +933,35 @@ async def submit_query(
             )
 
 
-            llm_response_str = llm.invoke(unified_prompt).content.strip()
-            logger.info("LLM raw response: %s", llm_response_str)
+            # llm_response_str = llm.invoke(unified_prompt).content.strip()
+            response = azure_openai_client.chat.completions.create(
+                    model=AZURE_DEPLOYMENT_NAME,
+                    messages=[
+                    {"role": "system", "content": unified_prompt},
+                    {"role": "user", "content": user_query}
+                ],
+                temperature=0,  # Lower temperature for more predictable, structured output
+                response_format={"type": "json_object"}  # This is the key parameter!
+                )
 
+            # The response content will be a JSON string
+            response_content = response.choices[0].message.content
+            
+            # Parse the guaranteed JSON string into a Python dictionary
             try:
-                llm_result = json.loads(llm_response_str)
+                json_output = json.loads(response_content)
             except json.JSONDecodeError as e:
                 logger.error(f"Failed to parse LLM response as JSON: {e}")
                 raise HTTPException(status_code=500, detail=f"Failed to parse LLM response as JSON: {e}")
 
-            llm_reframed_query = llm_result.get("rephrased_query", "")
-            chosen_tables = llm_result.get("tables_chosen", [])
+
+            # Now you can safely access the keys
+            llm_reframed_query = json_output.get("rephrased_query")
+
+            logger.info("LLM raw response: %s", llm_reframed_query)
+
+            llm_reframed_query = json_output.get("rephrased_query", "")
+            chosen_tables = json_output.get("tables_chosen", [])
             selected_business_rule = ""
             
 
@@ -850,7 +982,7 @@ async def submit_query(
         # print("This is my column schema",column_schema)
         # logger.info(f"table details: {table_details}")
         response, chosen_tables, tables_data, final_prompt,description,SQL_Statement= invoke_chain(
-                llm_reframed_query, request.session['messages'], model,
+                db, llm_reframed_query, request.session['messages'], model,
                 selected_subject, selected_database, table_details,
                 selected_business_rule, current_question_type, relationships,table_schema,column_schema,examples
             )
